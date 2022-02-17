@@ -4,9 +4,9 @@ Este es un sistema desarrollado en el entorno WEB, y el gestor de base de datos 
 
 ## Introducción
 
-Este sistema cumple con los requisitos minímos de un sistema de ventas y compra. en el, él usuario podra gestionar los cliente, ventas, así mismo, las compras y los proveedores
-entre otras opciones que tiene el sistema, también podrá visualizar reportes con jasper reports de las compras, ventas que se realizaron. como también graficos dinámicos en el
-panel principal
+Este sistema cumple con los requisitos minímos de un sistema de ventas y compra. en el, él usuario podra gestionar los cliente, 
+ventas, así mismo, las compras y los proveedores entre otras opciones que tiene el sistema, también podrá visualizar reportes 
+con jasper reports de las compras, ventas que se realizaron. como también graficos dinámicos en el panel principal
 
 ### Documentación adicional
 
