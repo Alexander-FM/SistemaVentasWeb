@@ -104,7 +104,7 @@ public class SrvMarca extends HttpServlet {
             dao = null;
         }
         try {
-            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/Vista/Marcas.jsp"
+            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/Vista/marcas.jsp"
             ).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo realizar la operacion");
@@ -114,7 +114,7 @@ public class SrvMarca extends HttpServlet {
     private void presentarFormulario(HttpServletRequest request, HttpServletResponse response) {
         try {
             this.getServletConfig().getServletContext().
-                    getRequestDispatcher("/WEB-INF/Vista/Marcas.jsp").forward(request, response);
+                    getRequestDispatcher("/WEB-INF/Vista/marcas.jsp").forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo realizar la operacion");
         }

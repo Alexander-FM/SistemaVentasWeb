@@ -103,7 +103,7 @@ public class srvProveedor extends HttpServlet {
             dao = null;
         }
         try {
-            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/Vista/Proveedores.jsp"
+            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/Vista/proveedores.jsp"
             ).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo realizar la operacion");
@@ -113,7 +113,7 @@ public class srvProveedor extends HttpServlet {
     private void presentarFormulario(HttpServletRequest request, HttpServletResponse response) {
         try {
             this.getServletConfig().getServletContext().
-                    getRequestDispatcher("/WEB-INF/Vista/Proveedores.jsp"
+                    getRequestDispatcher("/WEB-INF/Vista/proveedores.jsp"
                     ).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo realizar la operacion");

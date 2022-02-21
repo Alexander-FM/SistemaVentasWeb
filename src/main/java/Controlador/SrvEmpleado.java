@@ -104,7 +104,7 @@ public class SrvEmpleado extends HttpServlet {
             dao = null;
         }
         try {
-            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/Vista/Empleados.jsp"
+            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/Vista/empleados.jsp"
             ).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo realizar la operacion");
@@ -114,7 +114,7 @@ public class SrvEmpleado extends HttpServlet {
     private void presentarFormulario(HttpServletRequest request, HttpServletResponse response) {
         try {
             this.getServletConfig().getServletContext().
-                    getRequestDispatcher("/WEB-INF/Vista/Empleados.jsp"
+                    getRequestDispatcher("/WEB-INF/Vista/empleados.jsp"
                     ).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo realizar la operacion");

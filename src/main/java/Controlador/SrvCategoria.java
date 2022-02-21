@@ -103,7 +103,7 @@ public class SrvCategoria extends HttpServlet {
             dao = null;
         }
         try {
-            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/Vista/Categorias.jsp"
+            this.getServletConfig().getServletContext().getRequestDispatcher("/vista/categorias.jsp"
             ).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo realizar la operacion");
@@ -113,7 +113,7 @@ public class SrvCategoria extends HttpServlet {
     private void presentarFormulario(HttpServletRequest request, HttpServletResponse response) {
         try {
             this.getServletConfig().getServletContext().
-                    getRequestDispatcher("/WEB-INF/Vista/Categorias.jsp").forward(request, response);
+                    getRequestDispatcher("/WEB-INF/Vista/categorias.jsp").forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo realizar la operacion");
         }

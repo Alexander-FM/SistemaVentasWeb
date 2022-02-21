@@ -2,7 +2,10 @@ package Controlador;
 
 import Modelo.Empleado;
 import Modelo.empleadoDAO;
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +17,7 @@ public class SrvUsuario extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("application/json;charset=UTF-8");
         String accion = request.getParameter("accion");
         switch (accion) {
             case "ve":
@@ -21,6 +25,12 @@ public class SrvUsuario extends HttpServlet {
                 break;
             case "ce":
                 this.cerrarSesion(request, response);
+                break;
+            case "solicitarCambioContrasenia":
+                this.solicitarCambioContrasenia(request, response);
+                break;
+            case "cambiarContrasenia":
+                this.cambiarContrasenia(request, response);
                 break;
         }
     }
@@ -64,37 +74,30 @@ public class SrvUsuario extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void verificarIdentidad(HttpServletRequest request, HttpServletResponse response) {
-        empleadoDAO dao;
-        Empleado emp;
+    private void printMessage(String msj, boolean rpt, HttpServletResponse response) throws IOException {
+        response.getWriter().print("{\"rpt\": " + rpt + ", \"msj\": \"" + msj + "\"}");
+    }
 
-        if (request.getParameter("txtLogin") != null
-                && request.getParameter("txtClave") != null) {
-
-            emp = new Empleado();
-            emp.setLogin(request.getParameter("txtLogin"));
-            emp.setClave(request.getParameter("txtClave"));
-
-            dao = new empleadoDAO();
+    private void verificarIdentidad(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getParameter("datos") != null) {
+            Gson gson = new Gson();
+            Empleado emp = gson.fromJson(request.getParameter("datos"), Empleado.class);
+            empleadoDAO dao = new empleadoDAO();
             try {
                 emp = dao.identificar(emp);
-                if (emp != null) {
-                    request.getSession().setAttribute("usuario", emp);
-                    request.setAttribute("usuario", emp);
-                    
-                    this.getServletConfig().getServletContext().
-                            getRequestDispatcher("/WEB-INF/Vista/Inicio.jsp").forward(request, response);
-                } else {                   
-                    request.setAttribute("msje", "Credenciales no válidas");
-                    this.getServletConfig().getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+                if (emp == null) {
+                    this.printMessage("Usuario y/o contraseña incorrectas o credenciales no válidas", false, response);
+                } else {
+                    if (!emp.isEstado()) {
+                        this.printMessage("Empleado desactivado. Para más información comuníquese "
+                                + "con el administrador", false, response);
+                    } else {
+                        request.getSession().setAttribute("usuario", emp);
+                        this.printMessage("Acceso permitido", true, response);
+                    }
                 }
             } catch (Exception e) {
-                request.setAttribute("usuario", emp);
-                request.setAttribute("msje", e.getMessage());
-                try {
-                    this.getServletConfig().getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
-                } catch (Exception ex) {
-                }
+                this.printMessage(e.getMessage(), false, response);
             }
         }
     }
@@ -106,6 +109,53 @@ public class SrvUsuario extends HttpServlet {
         try {
             response.sendRedirect("index.jsp");
         } catch (Exception e) {
+        }
+    }
+
+    private void solicitarCambioContrasenia(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        empleadoDAO dao;
+        Empleado emp;
+        Map<String, Object> map = new HashMap<>();
+        if (request.getParameter("login") != null) {
+            emp = new Empleado();
+            emp.setLogin(request.getParameter("login"));
+            try {
+                dao = new empleadoDAO();
+                emp = dao.solicitarCambioContrasenia(emp);
+                if (emp != null) {
+                    map.put("rpta", true);
+                    map.put("msje", "Empleado encontrado correctamente");
+                    map.put("body", emp);
+                } else {
+                    map.put("rpta", false);
+                    map.put("msje", "Lo sentimos el empleado no fue encontrado");
+                    map.put("body", null);
+                }
+                String json = new Gson().toJson(map);
+                response.getWriter().print(json);
+            } catch (Exception e) {
+                this.printMessage(e.getMessage(), false, response);
+            }
+        } else {
+            this.printMessage("No se tiene el parámetro del empleado", false, response);
+        }
+    }
+
+    private void cambiarContrasenia(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getParameter("login") != null
+                && request.getParameter("clave") != null) {
+            Empleado emp = new Empleado();
+            emp.setLogin(request.getParameter("login"));
+            emp.setClave(request.getParameter("clave"));
+            try {
+                empleadoDAO dao = new empleadoDAO();
+                dao.cambiarContrasenia(emp);
+                this.printMessage("Datos del empleado actualizado correctamente", true, response);
+            } catch (Exception e) {
+                this.printMessage(e.getMessage(), false, response);
+            }
+        } else {
+            this.printMessage("Rellene el formulario", false, response);
         }
     }
 

@@ -108,7 +108,7 @@ public class SrvProducto extends HttpServlet {
             dao = null;
         }
         try {
-            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/Vista/Productos.jsp"
+            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/Vista/productos.jsp"
             ).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo realizar la operacion");
@@ -120,7 +120,7 @@ public class SrvProducto extends HttpServlet {
             this.cargarMarcas(request);
             this.cargarCategorias(request);
             this.getServletConfig().getServletContext().
-                    getRequestDispatcher("/WEB-INF/Vista/Productos.jsp"
+                    getRequestDispatcher("/WEB-INF/Vista/productos.jsp"
                     ).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("msje", "No se pudo realizar la operacion");
