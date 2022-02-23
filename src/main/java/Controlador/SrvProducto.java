@@ -6,19 +6,30 @@ import Modelo.Producto;
 import Modelo.categoriaDAO;
 import Modelo.marcaDAO;
 import Modelo.productoDAO;
+import com.google.gson.Gson;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 @WebServlet(name = "SrvProducto", urlPatterns = {"/Producto"})
 public class SrvProducto extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("application/json;charset=UTF-8");
         String accion = "";
 
         if (request.getParameter("accion") != null) {
@@ -27,11 +38,13 @@ public class SrvProducto extends HttpServlet {
             //pr=presentar,ac=actualizar
             switch (accion) {
                 case "li":
-                    this.listarProductos(request, response);
+                    this.listarProductos(response);
                     break;
-                case "nu":
-                    request.setAttribute("accion", "re");
-                    this.presentarFormulario(request, response);
+                case "liCategorias":
+                    this.listarCategorias(response);
+                    break;
+                case "liMarcas":
+                    this.listarMarcas(response);
                     break;
                 case "re":
                     this.registrarProducto(request, response);
@@ -47,9 +60,8 @@ public class SrvProducto extends HttpServlet {
                     break;
             }
         } else {
-            request.setAttribute(
-                    "msje", "No se indicó la operación a realizar");
-            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/vistas/error.jsp"
+            request.setAttribute("msje", "No se indicó la operación a realizar");
+            this.getServletConfig().getServletContext().getRequestDispatcher("/vista/error.jsp"
             ).forward(request, response);
         }
     }
@@ -93,101 +105,89 @@ public class SrvProducto extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void listarProductos(HttpServletRequest request, HttpServletResponse response) {
-        productoDAO dao = new productoDAO();
-        List<Producto> productos = null;
+    private void printError(String msjError, HttpServletResponse response) throws IOException {
+        response.getWriter().print("{\"msj\": \"" + msjError + "\"}");
+    }
 
+    private void listarProductos(HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
         try {
-            this.cargarMarcas(request);
-            this.cargarCategorias(request);
-            productos = dao.listar();
-            request.setAttribute("productos", productos);
+            productoDAO dao = new productoDAO();
+            List<Producto> pro = dao.listar();
+            Gson gson = new Gson();
+            String json = gson.toJson(pro);
+            out.print(json);
         } catch (Exception e) {
-            request.setAttribute("msje", "No se pudo listar los productos");
-        } finally {
-            dao = null;
-        }
-        try {
-            this.getServletConfig().getServletContext().getRequestDispatcher("/WEB-INF/Vista/productos.jsp"
-            ).forward(request, response);
-        } catch (Exception e) {
-            request.setAttribute("msje", "No se pudo realizar la operacion");
+            this.printError(e.getMessage(), response);
         }
     }
 
-    private void presentarFormulario(HttpServletRequest request, HttpServletResponse response) {
+    private void listarCategorias(HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
         try {
-            this.cargarMarcas(request);
-            this.cargarCategorias(request);
-            this.getServletConfig().getServletContext().
-                    getRequestDispatcher("/WEB-INF/Vista/productos.jsp"
-                    ).forward(request, response);
+            categoriaDAO dao = new categoriaDAO();
+            List<Categoria> cat = dao.listar();
+            Gson gson = new Gson();
+            String json = gson.toJson(cat);
+            out.print(json);
         } catch (Exception e) {
-            request.setAttribute("msje", "No se pudo realizar la operacion");
+            this.printError(e.getMessage(), response);
         }
     }
 
-    private void cargarCategorias(HttpServletRequest request) {
-        categoriaDAO dao = new categoriaDAO();
-        List<Categoria> cats = null;
-
+    private void listarMarcas(HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
         try {
-            cats = dao.listar();
-            request.setAttribute("categorias", cats);
+            marcaDAO dao = new marcaDAO();
+            List<Marca> mar = dao.listar();
+            Gson gson = new Gson();
+            String json = gson.toJson(mar);
+            out.print(json);
         } catch (Exception e) {
-            request.setAttribute("msje", e.getMessage());
-        } finally {
-            cats = null;
-            dao = null;
+            this.printError(e.getMessage(), response);
         }
     }
 
-    private void cargarMarcas(HttpServletRequest request) {
-        marcaDAO dao = new marcaDAO();
-        List<Marca> mars = null;
-
-        try {
-            mars = dao.listar();
-            request.setAttribute("marcas", mars);
-        } catch (Exception e) {
-            request.setAttribute("msje", e.getMessage());
-        } finally {
-            mars = null;
-            dao = null;
-        }
-    }
-
-    private void registrarProducto(HttpServletRequest request, HttpServletResponse response) {
-
+    private void registrarProducto(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         productoDAO daoProd;
         Producto prod = null;
-        Categoria cate;
-        Marca mar;
 
         if (request.getParameter("cboCategoria") != null
                 && request.getParameter("cboMarca") != null
                 && request.getParameter("codigoProducto") != null
                 && request.getParameter("producto") != null
                 && request.getParameter("descripcion") != null
-                && request.getParameter("cboUnidadMedida") != null
-                && request.getParameter("precio") != null
-                && request.getParameter("stock") != null) {
+                && request.getParameter("precioVenta") != null
+                && request.getParameter("precioCompra") != null
+                && request.getParameter("stock") != null
+                && request.getParameter("fechaRegistro") != null
+                && request.getParameter("imagen") != null) {
 
             prod = new Producto();
             prod.setCodigoProducto(request.getParameter("codigoProducto"));
             prod.setProducto(request.getParameter("producto"));
             prod.setDescripcion(request.getParameter("descripcion"));
-            prod.setUnidadMedida(request.getParameter("cboUnidadMedida"));
-            prod.setPrecioVenta(Double.parseDouble(request.getParameter("precio")));
+            prod.setPrecioVenta(Double.parseDouble(request.getParameter("precioVenta")));
+            prod.setPrecioCompra(Double.parseDouble(request.getParameter("precioCompra")));
             prod.setStock(Integer.parseInt(request.getParameter("stock")));
-
-            cate = new Categoria();
-            cate.setCodigo(Integer.parseInt(request.getParameter("cboCategoria")));
-            prod.setCategoria(cate);
-            mar = new Marca();
-            mar.setCodigo(Integer.parseInt(request.getParameter("cboMarca")));
-            prod.setMarca(mar);
-
+            /**
+             * Con esto obtenemos la fecha actual del sistema
+             */
+            String fechaActual = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+            prod.setFechaRegistro(Date.valueOf(fechaActual));
+            prod.setCategoria(new Categoria());
+            prod.getCategoria().setCodigo(Integer.parseInt(request.getParameter("cboCategoria")));
+            prod.setMarca(new Marca());
+            prod.getMarca().setCodigo(Integer.parseInt(request.getParameter("cboMarca")));
+            /*prod.setProveedor(new Proveedor());
+            prod.getProveedor().setId(Integer.parseInt(request.getParameter("combo_proveedor")));*/
+            //Guardar Imagen
+            Part part = request.getPart("imagen");//Nombre de nuestro input de tipo file.
+            String nombreArchivo = Paths.get(part.getSubmittedFileName()).getFileName().toString(); //Conseguir el nombre del archivo
+            //Ruta donde se guarda la imagen
+            File file = new File("C:\\Users\\lfuenmed\\OneDrive - NTT DATA EMEAL\\Documentos\\NetBeansProjects\\SistemaVentasWeb\\src\\main\\webapp\\imgProducts\\" + nombreArchivo);
+            Files.copy(part.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            prod.setImagen("http://localhost:8080/SistemaVentasWeb/imgProducts/" + nombreArchivo);
             if (request.getParameter("chkVigencia") != null) {
                 prod.setEstado(true);
             } else {
@@ -196,13 +196,10 @@ public class SrvProducto extends HttpServlet {
             daoProd = new productoDAO();
             try {
                 daoProd.registrar(prod);
-                response.sendRedirect("Producto?accion=li");
+                response.sendRedirect("vista/productos.jsp");
             } catch (Exception e) {
                 request.setAttribute("msje", "No se pudo registrar el producto" + e.getMessage());
-                request.setAttribute("producto", prod);
-                request.setAttribute("accion", "re");
-                this.presentarFormulario(request, response);
-            } finally {
+                request.setAttribute("marca", prod);
             }
         }
     }
@@ -215,14 +212,14 @@ public class SrvProducto extends HttpServlet {
 
     private void eliminarProducto(HttpServletRequest request, HttpServletResponse response) {
         productoDAO dao;
-        Producto cat;
+        Producto prod;
         if (request.getParameter("cod") != null) {
-            cat = new Producto();
-            cat.setCodigo(Integer.parseInt(request.getParameter("cod")));
+            prod = new Producto();
+            prod.setCodigo(Integer.parseInt(request.getParameter("cod")));
             dao = new productoDAO();
             try {
-                dao.eliminar(cat);
-                response.sendRedirect("Producto?accion=li");
+                dao.eliminar(prod);
+                response.sendRedirect("vista/productos.jsp");
             } catch (Exception e) {
                 request.setAttribute("msje", "No se pudo eliminar el producto" + e.getMessage());
             }

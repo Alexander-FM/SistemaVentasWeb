@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
 <!-- Ionicons -->
 <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
-<!-- DataTables-->
-<link rel="stylesheet" href="../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"  type="text/css"/>
+<!-- Data Table -->   
+<link href="../bower_components/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" type="text/css"/>
 <!-- Theme style -->
 <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
 <!-- AdminLTE Skins. We have chosen the skin-blue for this starter

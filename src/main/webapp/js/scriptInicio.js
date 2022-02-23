@@ -44,7 +44,7 @@ function top10UltimosProductosRegistrados() {
         success: function (data) {
             var etiqueta = '';
             for (var i = 0; i < data.length; i++) {
-                etiqueta += '<li class="item"><div class="product-img"><img src="../imagenes/image_not_found.png"'
+                etiqueta += '<li class="item"><div class="product-img"><img src="' + data[i].imagen + '"'
                         + 'alt="Product Image"></div><div class="product-info"><a class="product-title">'
                         + data[i].producto + '<span class="label label-warning pull-right">S/ '
                         + data[i].precioVenta + '.00</span></a><span class="product-description">'
@@ -99,7 +99,7 @@ function montoTotalEnCaja() {
     var totalVentasRealizadas = '';
     $.get('../panelAdministrativo?accion=montoTotalEnCaja', {}, function (r) {
         totalVentasRealizadas = r;
-        $('#dineroCaja').html("S/" + totalVentasRealizadas+ ".00");
+        $('#dineroCaja').html("S/" + totalVentasRealizadas + ".00");
     });
 }
 

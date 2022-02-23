@@ -8,6 +8,7 @@ public class Producto {
     public int codigo;
     private String codigoProducto;
     private String producto;
+    private String imagen;
     private String descripcion;
     private double precioVenta;
     private double precioCompra;

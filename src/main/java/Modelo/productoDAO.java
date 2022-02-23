@@ -7,19 +7,27 @@ import java.util.List;
 
 public class productoDAO extends Conexion {
 
+    /**
+     * Este método registra el producto en la base de datos
+     *
+     * @param producto
+     * @throws Exception
+     */
     public void registrar(Producto producto) throws Exception {
         String sql;
 
-        sql = "INSERT INTO Producto (codigoProducto, Producto, Descripcion, PrecioVenta, Stock, UnidadMedida, "
-                + "Estado, idCategoria, idMarca) "
+        sql = "INSERT INTO Producto (codigoProducto, Producto, Descripcion, Imagen, PrecioVenta, PrecioCompra, Stock, "
+                + "Estado, fechaRegistro, idCategoria, idMarca) "
                 + "VALUES('" + producto.getCodigoProducto() + "', '"
                 + producto.getProducto() + "', '"
-                + producto.getDescripcion() + "', "
-                + producto.getPrecioVenta()+ ", "
-                + producto.getStock() + ", '"
-                + producto.getUnidadMedida() + "', "
+                + producto.getDescripcion() + "', '"
+                + producto.getImagen() + "', "
+                + producto.getPrecioVenta() + ", "
+                + producto.getPrecioCompra() + ", "
+                + producto.getStock() + ", "
                 + (producto.isEstado() == true ? "1" : "0")
-                + ", " + producto.getCategoria().getCodigo()
+                + producto.getFechaRegistro() + ", '"
+                + "', " + producto.getCategoria().getCodigo()
                 + ", " + producto.getMarca().getCodigo() + ")";
 
         try {
@@ -33,12 +41,18 @@ public class productoDAO extends Conexion {
         }
     }
 
+    /**
+     * Este método lista todos los productos registrados en la base de datos
+     *
+     * @return {LIst} retorna una lista, representa el listado de productos
+     * @throws Exception
+     */
     public List<Producto> listar() throws Exception {
         List<Producto> productos = null;
         Producto prod;
         ResultSet rs = null;
-        String sql = "SELECT P.idProducto, P.codigoProducto, P.estado, P.producto, P.descripcion, "
-                + "P.precioVenta, P.stock, p.unidadMedida, C.categoria, M.marca "
+        String sql = "SELECT P.idProducto, P.codigoProducto, P.estado, P.producto, P.imagen, P.descripcion, "
+                + "P.precioVenta, P.precioCompra, P.stock, C.categoria, M.marca "
                 + "FROM producto P inner join categoria C "
                 + "on C.idCategoria = P.idCategoria inner join Marca M "
                 + "on M.idMarca = P.idMarca";
@@ -53,26 +67,23 @@ public class productoDAO extends Conexion {
                 prod.setCodigoProducto(rs.getString("codigoProducto"));
                 prod.setEstado(rs.getBoolean("estado"));
                 prod.setProducto(rs.getString("producto"));
+                prod.setImagen(rs.getString("imagen"));
                 prod.setDescripcion(rs.getString("descripcion"));
-                prod.setPrecioVenta(rs.getDouble("precio"));
+                prod.setPrecioVenta(rs.getDouble("precioVenta"));
+                prod.setPrecioCompra(rs.getDouble("precioCompra"));
                 prod.setStock(rs.getInt("stock"));
-                prod.setUnidadMedida(rs.getString("unidadMedida"));
                 prod.setCategoria(new Categoria());
                 prod.getCategoria().setCategoria(rs.getString("categoria"));
                 prod.setMarca(new Marca());
                 prod.getMarca().setMarca(rs.getString("marca"));
                 productos.add(prod);
             }
-            rs.close();
-            this.cerrar(true);
+            this.cerrar(false);
         } catch (Exception e) {
             this.cerrar(false);
             throw e;
         } finally {
-            if (rs != null && rs.isClosed() == false) {
-                rs.close();
-            }
-            rs = null;
+            this.cerrar(false);
         }
         return productos;
     }

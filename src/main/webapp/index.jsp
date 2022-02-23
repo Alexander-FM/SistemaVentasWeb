@@ -1,8 +1,9 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Sistema Ventas | Iniciar Sesión</title>
+        <title>Sistema Ventas | Iniciar SesiÃ³n</title>
         <link rel="icon" href="imagenes/perfil.png">
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -28,7 +29,7 @@
             </div>
             <!-- /.login-logo -->
             <div class="login-box-body" style="border-radius: 15px">
-                <p class="login-box-msg">Iniciar Sesión</p>
+                <p class="login-box-msg">Iniciar SesiÃ³n</p>
                 <form id="frmIdentificar">
                     <div class="form-group has-feedback">
                         <input type="text" class="form-control" required="" id="txtLogin" placeholder="Usuario">
@@ -42,22 +43,22 @@
                         <div class="col-xs-7">
                             <div class="checkbox icheck">
                                 <label>
-                                    <input type="checkbox"> Recuérdame
+                                    <input type="checkbox"> RecuÃ©rdame
                                 </label>
                             </div>
                         </div>
                         <!-- /.col -->
                         <div class="col-xs-5">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar Sesión</button>
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar SesiÃ³n</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
-                <a href="#mdlRequestPasswordChange" data-toggle="modal" data-backdrop="static" data-keyboard="false">Olvidé mi contraseña</a><br>
+                <a href="#mdlRequestPasswordChange" data-toggle="modal" data-backdrop="static" data-keyboard="false">OlvidÃ© mi contraseÃ±a</a><br>
             </div>
             <!-- /.login-box-body -->
         </div>
-        <!-- Modal para solicitud de cambio de contraseña -->
+        <!-- Modal para solicitud de cambio de contraseÃ±a -->
         <div class="modal fade" id="mdlRequestPasswordChange">
             <div class="modal-dialog">
                 <div class="modal-content" style="border-radius: 15px">
@@ -65,7 +66,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true"><i class="fa fa-close"></i></span>
                         </button>
-                        <h4 class="modal-title">Solicitud para cambio de contraseña</h4>
+                        <h4 class="modal-title">Solicitud para cambio de contraseÃ±a</h4>
                     </div>
                     <div class="modal-body">
                         <form id="frmRequestPasswordChange">
@@ -89,7 +90,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>
-        <!-- Modal para actualizar contraseña -->
+        <!-- Modal para actualizar contraseÃ±a -->
         <div class="modal fade" id="mdlChangePassword">
             <div class="modal-dialog">
                 <div class="modal-content" style="border-radius: 15px">
@@ -97,22 +98,22 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true"><i class="fa fa-close"></i></span>
                         </button>
-                        <h4 class="modal-title">Ingrese su nueva contraseña</h4>
+                        <h4 class="modal-title">Ingrese su nueva contraseÃ±a</h4>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="login"><!-- Guardamos el login en un input de tipo de hidden -->
-                        <p>Hola, <b style="color: #0b3e6f" id="nombreEmpleado">Luigui Alexander Fuentes Medina</b>, estás a solo un paso de su nueva contraseña, recupere su
-                            contraseña ahora.</p>
+                        <p>Hola, <b style="color: #0b3e6f" id="nombreEmpleado">Luigui Alexander Fuentes Medina</b>, estÃ¡s a solo un paso de su nueva contraseÃ±a, recupere su
+                            contraseÃ±a ahora.</p>
                         <form id="frmChangePassword">
                             <div class="form-group">
-                                <label>Ingresa tu nueva contraseña</label>
+                                <label>Ingresa tu nueva contraseÃ±a</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                     <input id="txtPassword" required type="password" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Confirma tu contraseña</label>
+                                <label>Confirma tu contraseÃ±a</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                                     <input id="txtPassword2" required type="password" class="form-control">
@@ -121,7 +122,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <button id="btnSaveChange" type="submit" class="btn btn-success pull-right" style="margin-right: 16px">
-                                        Cambiar Contraseña <i class="fa fa-chevron-right"></i>
+                                        Cambiar ContraseÃ±a <i class="fa fa-chevron-right"></i>
                                     </button>
                                 </div>
                             </div>

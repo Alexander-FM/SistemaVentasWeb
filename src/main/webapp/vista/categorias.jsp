@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page session="true" %>
 <%
@@ -15,10 +16,10 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">                   
-                    <h1>Gestión Categorí­as</h1>
+                    <h1>GestiÃ³n CategorÃ­Â­as</h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Registros</a></li>
-                        <li class="active">CategorÃ­as</li>
+                        <li class="active">CategorÃ­Â­as</li>
                     </ol>
                 </section>
                 <!-- Main content -->
@@ -27,7 +28,7 @@
                         <div class="col-xs-10 col-md-5 ">
                             <div class="btn-group pull-left">
                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#mdlCategoria">
-                                    <i class="fa fa-plus"></i> Nueva Categorí­a</button>
+                                    <i class="fa fa-plus"></i> Nueva CategorÃ­Â­a</button>
                             </div>
                         </div><br><br>
                         <div class="modal fade" data-backdrop="static" data-keyboard="false" id="mdlCategoria">
@@ -37,14 +38,14 @@
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true"><i class="fa fa-close"></i></span></button>
-                                        <h4 class="modal-title">Gestión Categorí­as</h4>
+                                        <h4 class="modal-title">GestiÃ³n CategorÃ­Â­as</h4>
                                     </div>
                                     <form id="frmCategorias">
                                         <div class="modal-body">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label>Nombre Categorí­a</label>
+                                                        <label>Nombre CategorÃ­Â­a</label>
                                                         <div class="input-group">                                               
                                                             <span class="input-group-addon"><i class="fa fa-folder"></i></span>
                                                             <input name="txtCategoria" autofocus="" type="text" class="form-control" placeholder="Lacteos">
@@ -73,7 +74,7 @@
                         <div class="col-xs-12">
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Listado de Categorí­as</h3>
+                                    <h3 class="box-title">Listado de CategorÃ­Â­as</h3>
                                 </div>
                                 <div class="box-body">
                                     <table id="tablaCategorias" class="table table-bordered table-hover">
