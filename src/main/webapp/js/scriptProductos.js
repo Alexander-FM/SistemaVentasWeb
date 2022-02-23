@@ -22,7 +22,7 @@ function listarProductos() {
                         + "<td> S/" + data[i].precioVenta + ".00</td>"
                         + "<td> S/" + data[i].precioCompra + ".00</td>"
                         + "<td>" + data[i].stock + "</td>"
-                        + "<td>" + (data[i].estado === true ? '<h5><span class =\"label label-success\">Activa</span></h5>' : '<h5><span class =\"label label-danger\">Inactiva</span></h5>') + "</td>"
+                        + "<td>" + (data[i].estado === true ? '<span class =\"label label-success\">Activa</span>' : '<span class =\"label label-danger\">Inactiva</span>') + "</td>"
                         + "<td>" + data[i].categoria.categoria + "</td>"
                         + "<td>" + data[i].marca.marca + "</td>"
                         + "<td nowrap><button title=\"Editar\" class=\"btn btn-warning\">"

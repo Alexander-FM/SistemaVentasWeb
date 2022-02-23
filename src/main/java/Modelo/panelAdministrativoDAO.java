@@ -162,7 +162,7 @@ public class panelAdministrativoDAO extends Conexion {
      */
     public double totalCaja() throws Exception {
         ResultSet rs = null;
-        String sql = "SELECT SUM(DV.precioVenta) AS 'totalCaja' FROM detalleVenta DV";
+        String sql = "SELECT SUM(DV.precioVenta * Dv.cantidad) AS 'totalCaja' FROM detalleVenta DV";
         try {
             this.conectar(false);
             rs = this.ejecutarOrdenDatos(sql);

@@ -1,5 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page session="true" %>
+<%
+    if (session.getAttribute("usuario") != null) {
+%>
 <html>
     <head>
         <%@include file="plus/head.jsp" %>
@@ -156,7 +160,7 @@
                                     <h3 class="box-title">Listado de Productos</h3>   
                                 </div>
                                 <div class="box-body">
-                                    <table id="tablaProductos" class="table table-responsive table-bordered table-hover">
+                                    <table id="tablaProductos" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">Codigo Barras</th>
@@ -201,3 +205,8 @@
         <script src="../js/scriptProductos.js"></script>
     </body>
 </html>
+<%
+    } else {
+        response.sendRedirect("../index.jsp");
+    }
+%>

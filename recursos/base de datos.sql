@@ -17,6 +17,7 @@ go
 
 insert into Categoria values ('Chocolates', 1)
 insert into Categoria values ('Bebidas', 1)
+insert into Categoria values ('Televisores OLED', 1)
 go
 
 select* from Categoria
@@ -34,9 +35,43 @@ insert into Marca values ('Donofrio', 1)
 insert into Marca values ('Pepsi', 1)
 insert into Marca values ('Coca Cola', 1)
 insert into Marca values ('Inka Kola', 1)
+insert into Marca values ('LG Electronics', 1)
 go
 
 select* from Marca
+go
+
+create table TipoIdentificacion
+(
+idTipoIdentificacion int identity (1,1) primary key,
+nombreTipoIden varchar(255) not null,
+estado bit not null,
+)
+go
+
+INSERT INTO TIPOIDENTIFICACION VALUES ('DNI', 1), ('RUC', 1)
+GO
+
+create table Proveedor
+(
+idProveedor int identity(1,1) primary key,
+razonSocial varchar(255) not null,
+idTipoIdentificacion int foreign key references TipoIdentificacion(idTipoIdentificacion),
+numeroDocumento char(11) not null,
+direccion varchar(255) not null,
+telefono char(11) not null,
+email varchar(255) not null,
+estado bit
+)
+go
+
+insert into Proveedor values ('Coca Cola Company', 2, '20198745656', 'Lima - San Borja', '074281025', 'cocacola@gmail.com', 1)
+insert into Proveedor values ('Donofrio Company', 2, '10496358274', 'Lima - San Isidro', '978456987', 'donofrio@gmail.com', 1)
+insert into Proveedor values ('Gloria Company', 2, '20169358247', 'Lima - San Tomas', '654789231', 'gloria@live.com', 1)
+insert into Proveedor values ('GN Company', 2, '20485296374', 'Lima - San Felipe', '258963147', 'gn@outlook.com', 1)
+go
+
+select* from Proveedor
 go
 
 create table Producto
@@ -50,34 +85,39 @@ precioCompra decimal(8,2) not null,
 stock smallint not null,
 estado bit not null,
 fechaRegistro date not null,
+imagen varchar(500) not null,
 idCategoria int foreign key references Categoria(idCategoria),
-idMarca int foreign key references Marca(idMarca)
+idMarca int foreign key references Marca(idMarca),
+idProveedor int foreign key references Proveedor(idProveedor)
 )
 go
+
+Insert Into Producto Values('LGOLED2022', 'LG OLED TV', 'LG 65" 4K 120Hz OLED Smart TV', '6000.00', '5000.00', 2, 1, '2022/02/22', 'http://localhost:8080/SistemaVentasWeb/imgProducts/lgOled.png', 3, 5, 1)
+Go
 
 create table Empleado
 (
 idEmpleado int identity (1,1) primary key,
 nombre varchar(255) not null,
 apellidos varchar(255) not null,
-tipoDocumento varchar(100) not null,
+idTipoIdentificacion int foreign key references TipoIdentificacion(idTipoIdentificacion),
 numeroDocumento varchar(100) not null,
-Direccion varchar(255) not null,
+direccion varchar(255) not null,
 telefono varchar(11) not null,
 email varchar(255) not null,
 fechaNacimiento date not null,
 estado bit,
 cargo varchar(100) not null,
 userName varchar(50) not null,
-clave varbinary(8000)
+clave varbinary(8000) not null
 )
 go 
 
-INSERT INTO Empleado VALUES ('Jean Carlos', 'Ramos Moncayo', 'DNI', '45685241', 'Chiclayo', '963258741', 'Jean@gmail.com', '1999-05-19', 1, 'Empleado', 'emp01', ENCRYPTBYPASSPHRASE('password', 'Jean'))
-INSERT INTO Empleado VALUES ('Misael', 'Tejada Atoche', 'DNI', '78963521', 'Chiclayo', '978564123', 'Misael@gmail.com', '1999-02-19', 1, 'Soporte Tecnico', 'emp02', ENCRYPTBYPASSPHRASE('password', 'Misael'))
-INSERT INTO Empleado VALUES ('Ronald', 'Irigoin nunez', 'DNI', '45789632', 'Chiclayo', '951753648', 'Ronald@gmail.com', '1999-04-19', 1, 'Empleado', 'emp03', ENCRYPTBYPASSPHRASE('password', 'Ronald'))
-INSERT INTO Empleado VALUES ('Elmer', 'Olivera Yupanqui', 'RUC', '14785256589', 'Chiclayo', '927415838', 'Elmer@gmail.com', '1999-01-19', 1, 'Empleado', 'emp04', ENCRYPTBYPASSPHRASE('password', 'Elmer'))
-INSERT INTO Empleado VALUES ('Alexander', 'Fuentes Medina', 'DNI', '78019778', 'Ferrenafe', '917967148', 'Alex@gmail.com', '1999-12-19', 1, 'Administrador', 'admin', ENCRYPTBYPASSPHRASE('password', 'Alexander'))
+INSERT INTO Empleado VALUES ('Jean Carlos', 'Ramos Moncayo', 1, '45685241', 'Chiclayo', '963258741', 'Jean@gmail.com', '1999-05-19', 1, 'Empleado', 'emp01', ENCRYPTBYPASSPHRASE('password', 'Jean'))
+INSERT INTO Empleado VALUES ('Misael', 'Tejada Atoche', 1, '78963521', 'Chiclayo', '978564123', 'Misael@gmail.com', '1999-02-19', 1, 'Soporte Tecnico', 'emp02', ENCRYPTBYPASSPHRASE('password', 'Misael'))
+INSERT INTO Empleado VALUES ('Ronald', 'Irigoin nunez', 1, '45789632', 'Chiclayo', '951753648', 'Ronald@gmail.com', '1999-04-19', 1, 'Empleado', 'emp03', ENCRYPTBYPASSPHRASE('password', 'Ronald'))
+INSERT INTO Empleado VALUES ('Elmer', 'Olivera Yupanqui', 1, '14785256589', 'Chiclayo', '927415838', 'Elmer@gmail.com', '1999-01-19', 1, 'Empleado', 'emp04', ENCRYPTBYPASSPHRASE('password', 'Elmer'))
+INSERT INTO Empleado VALUES ('Alexander', 'Fuentes Medina', 1, '78019778', 'Ferrenafe', '917967148', 'Alex@gmail.com', '1999-12-19', 1, 'Administrador', 'admin', ENCRYPTBYPASSPHRASE('password', 'Alexander'))
 go
 
 select* from empleado
@@ -87,7 +127,7 @@ create table Cliente
 (
 idCliente int identity (1,1) primary key,
 nombresCompletos varchar(255) not null,
-tipoDocumento varchar(100) not null,
+idTipoIdentificacion int foreign key references TipoIdentificacion(idTipoIdentificacion),
 numeroDocumento varchar(100) not null,
 departamento varchar(255) not null,
 provincia varchar(255) not null,
@@ -99,11 +139,11 @@ estado bit
 )
 go
 
-insert into Cliente values ('Flor de Maria Medina', 'DNI', '78012585', 'Lambayeque', 'Ferrenafe', 'Ferrenafe', 'Miguel Grau 423', '999234567', 'florcita@gmail.com' ,1)
-insert into Cliente values ('Flor de Yadhira Fuentes', 'DNI', '63589741', 'Lambayeque', 'Chiclayo', 'Chiclayo', 'Saenz Pena 741', '978456321', 'yadhira@gmail.com' ,1)
-insert into Cliente values ('Yuleisi Fernandez', 'DNI', '45698741', 'Lambayeque', 'Chiclayo', 'Monsefu', 'San Jose 789', '987652344', 'yuleisi@gmail.com' ,1)
-insert into Cliente values ('Mary Meono', 'DNI', '23658974', 'Lambayeque', 'Reque', 'Santos', 'Pardo 258', '925471369', 'mary@gmail.com' ,1)
-insert into Cliente values ('Juan Carlos', 'DNI', '74852163', 'Lambayeque', 'Olmos', 'Tinajones', 'Miguel Pasco 124', '912365874', 'juanca@gmail.com' ,1)
+insert into Cliente values ('Flor de Maria Medina', 1, '78012585', 'Lambayeque', 'Ferrenafe', 'Ferrenafe', 'Miguel Grau 423', '999234567', 'florcita@gmail.com' ,1)
+insert into Cliente values ('Flor de Yadhira Fuentes', 1, '63589741', 'Lambayeque', 'Chiclayo', 'Chiclayo', 'Saenz Pena 741', '978456321', 'yadhira@gmail.com' ,1)
+insert into Cliente values ('Yuleisi Fernandez', 1, '45698741', 'Lambayeque', 'Chiclayo', 'Monsefu', 'San Jose 789', '987652344', 'yuleisi@gmail.com' ,1)
+insert into Cliente values ('Mary Meono', 1, '23658974', 'Lambayeque', 'Reque', 'Santos', 'Pardo 258', '925471369', 'mary@gmail.com' ,1)
+insert into Cliente values ('Juan Carlos', 1, '74852163', 'Lambayeque', 'Olmos', 'Tinajones', 'Miguel Pasco 124', '912365874', 'juanca@gmail.com' ,1)
 go 
 
 select* from Cliente
@@ -117,16 +157,12 @@ serie tinyint not null,
 numero smallint not null,
 estado bit not null,
 fechaVenta date,
-monto decimal (8,2) not null,
 idCliente int foreign key references Cliente(idCliente),
 idEmpleado int foreign key references Empleado(idEmpleado)
 )
 go
 
-insert into venta values ('Boleta', '0001', '0000001', 1, '2019-08-13', 100.00, 1, 1)
-insert into venta values ('Boleta', '0001', '0000002', 1, '2019-08-14', 18.00, 2, 1)
-insert into venta values ('Boleta', '0001', '0000003', 1, '2019-08-15', 50.00, 5, 1)
-insert into venta values ('Boleta', '0001', '0000004', 1, '2019-08-16', 40.00, 4, 1)
+insert into venta values ('Boleta', '0001', '0000001', 1, '2019-08-13', 1, 1)
 go
 
 select* from venta
@@ -142,33 +178,10 @@ precioVenta smallmoney not null
 )
 go
 
-insert into detalleVenta values (1, 1, 25, 2.50)
-insert into detalleVenta values (2, 2, 3, 6.00)
-insert into detalleVenta values (3, 1, 20, 2.50)
-insert into detalleVenta values (4, 2, 5, 6.00)
+insert into detalleVenta values (1, 1, 3, 6000)
 go
 
 select* from detalleVenta
-go
-
-create table Proveedor
-(
-idProveedor int identity(1,1) primary key,
-razonSocial varchar(255) not null,
-ruc char(11) not null,
-direccion varchar(255) not null,
-telefono char(11) not null,
-estado bit
-)
-go
-
-insert into Proveedor values ('Coca Cola Company', '20198745656', 'Lima - San Borja', '074281025', 1)
-insert into Proveedor values ('Donofrio Company', '10496358274', 'Lima - San Isidro', '978456987', 1)
-insert into Proveedor values ('Gloria Company', '20169358247', 'Lima - San Tomas', '654789231', 1)
-insert into Proveedor values ('GN Company', '20485296374', 'Lima - San Felipe', '258963147', 1)
-go
-
-select* from Proveedor
 go
 
 create table Compra
@@ -184,7 +197,6 @@ impuesto smallint not null
 go
 
 insert into Compra values (1, '0001', '0000001', '2019-08-14', 'Boleta', 18)
-insert into Compra values (2, '0001', '0000002', '2019-08-15', 'Factura', 18)
 go
 
 select* from Compra
@@ -201,8 +213,7 @@ precioVenta decimal (8,2) not null,
 )
 go
 
-insert into detalleCompra values (1, 1, 5, 2.00, 2.50)
-insert into detalleCompra values (2, 2, 5, 5.00, 6.00)
+insert into detalleCompra values (1, 1, 5, 5000, 6000)
 go
 
 select* from detalleCompra
@@ -242,5 +253,5 @@ GO
 SELECT COUNT(C.idCompra) AS 'totalCompras' FROM Compra C
 GO
 -- TOTAL DE CAJA
-SELECT SUM(DV.precioVenta) AS 'totalCaja' FROM detalleVenta DV
+SELECT SUM(DV.precioVenta * Dv.cantidad) AS 'totalCaja' FROM detalleVenta DV
 GO
