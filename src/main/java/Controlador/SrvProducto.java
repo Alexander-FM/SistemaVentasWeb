@@ -178,7 +178,7 @@ public class SrvProducto extends HttpServlet {
             prod.setProducto(request.getParameter("producto"));
             prod.setDescripcion(request.getParameter("descripcion"));
             prod.setUnidadMedida(request.getParameter("cboUnidadMedida"));
-            prod.setPrecio(Double.parseDouble(request.getParameter("precio")));
+            prod.setPrecioVenta(Double.parseDouble(request.getParameter("precio")));
             prod.setStock(Integer.parseInt(request.getParameter("stock")));
 
             cate = new Categoria();

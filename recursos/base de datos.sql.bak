@@ -232,15 +232,3 @@ SELECT E.idEmpleado, E.nombre, E.apellidos, E.cargo, CONVERT(VARCHAR(MAX), DECRY
 FROM Empleado E
 WHERE E.estado = 1 AND E.userName = 'admin'
 GO
--- CONTAR LA CANTIDAD DE CLIENTES
-SELECT COUNT(C.idCliente) AS 'totalClientes' FROM Cliente C
-GO
--- CONTAR LA CANTIDAD DE VENTAS
-SELECT COUNT(V.idVenta) AS 'totalVentas' FROM Venta V
-GO
--- CONTAR LA CANTIDAD DE COMPRAS
-SELECT COUNT(C.idCompra) AS 'totalCompras' FROM Compra C
-GO
--- TOTAL DE CAJA
-SELECT SUM(DV.precioVenta) AS 'totalCaja' FROM detalleVenta DV
-GO

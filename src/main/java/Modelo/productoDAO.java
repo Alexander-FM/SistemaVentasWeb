@@ -10,12 +10,12 @@ public class productoDAO extends Conexion {
     public void registrar(Producto producto) throws Exception {
         String sql;
 
-        sql = "INSERT INTO Producto (codigoProducto, Producto, Descripcion, Precio, Stock, UnidadMedida, "
+        sql = "INSERT INTO Producto (codigoProducto, Producto, Descripcion, PrecioVenta, Stock, UnidadMedida, "
                 + "Estado, idCategoria, idMarca) "
                 + "VALUES('" + producto.getCodigoProducto() + "', '"
                 + producto.getProducto() + "', '"
                 + producto.getDescripcion() + "', "
-                + producto.getPrecio() + ", "
+                + producto.getPrecioVenta()+ ", "
                 + producto.getStock() + ", '"
                 + producto.getUnidadMedida() + "', "
                 + (producto.isEstado() == true ? "1" : "0")
@@ -38,7 +38,7 @@ public class productoDAO extends Conexion {
         Producto prod;
         ResultSet rs = null;
         String sql = "SELECT P.idProducto, P.codigoProducto, P.estado, P.producto, P.descripcion, "
-                + "P.precio, P.stock, p.unidadMedida, C.categoria, M.marca "
+                + "P.precioVenta, P.stock, p.unidadMedida, C.categoria, M.marca "
                 + "FROM producto P inner join categoria C "
                 + "on C.idCategoria = P.idCategoria inner join Marca M "
                 + "on M.idMarca = P.idMarca";
@@ -54,7 +54,7 @@ public class productoDAO extends Conexion {
                 prod.setEstado(rs.getBoolean("estado"));
                 prod.setProducto(rs.getString("producto"));
                 prod.setDescripcion(rs.getString("descripcion"));
-                prod.setPrecio(rs.getDouble("precio"));
+                prod.setPrecioVenta(rs.getDouble("precio"));
                 prod.setStock(rs.getInt("stock"));
                 prod.setUnidadMedida(rs.getString("unidadMedida"));
                 prod.setCategoria(new Categoria());
