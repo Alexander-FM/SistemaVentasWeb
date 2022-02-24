@@ -28,55 +28,24 @@
                     <div class="row">
                         <div class="col-xs-10 col-md-5 ">
                             <div class="btn-group pull-left">
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalproduc">
-                                    <i class="fa fa-plus"></i> Nuevo Producto</button>      
-                                    <c:if test="${msje != ''}">
-                                    <div>${msje}</div>
-                                </c:if>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalproduc" data-backdrop="static" data-keyboard="false">
+                                    <i class="fa fa-plus"></i> Nuevo Producto
+                                </button>      
                             </div>
                         </div><br><br>
                         <div class="modal fade" id="modalproduc">
                             <div class="modal-dialog">
-                                <div class="modal-content">
+                                <div class="modal-content" style="border-radius: 15px">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span></button>
                                         <h4 class="modal-title">Gestión Productos</h4>
                                     </div>
-                                    <form action="Producto?accion=re" method="post" class="form">
+                                    <form action="../Producto?accion=re" method="post" id="frmProducto" enctype="multipart/form-data">
                                         <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Seleccione Categoria</label>
-                                                        <select class="form-control" name="cboCategoria">
-                                                            <option value="0">Seleccione una Categoria</option>
-                                                            <c:forEach var="cat" items="${categorias}" >
-                                                                <option value="${cat.codigo}"  
-                                                                        <c:if test="${cat.codigo == 
-                                                                                      producto.categoria.codigo}">
-                                                                              selected
-                                                                        </c:if>
-                                                                        >${cat.categoria}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Seleccione Marca</label>
-                                                        <select class="form-control" name="cboMarca">
-                                                            <option value="0">Seleccione una Marca</option>
-                                                            <c:forEach var="mar" items="${marcas}">
-                                                                <option value="${mar.codigo}"  
-                                                                        <c:if test="${mar.codigo == 
-                                                                                      producto.marca.codigo}">
-                                                                              selected
-                                                                        </c:if>
-                                                                        >${mar.marca}</option>
-                                                            </c:forEach>
-                                                        </select>
-                                                    </div>
+                                            <div class="row" style="margin-bottom: 10px">
+                                                <div class="col-md-12">
+                                                    <label class="label label-danger">${msje}</label>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -85,68 +54,104 @@
                                                         <label>Codigo Producto</label>
                                                         <div class="input-group">                                               
                                                             <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-                                                            <input type="text" name="codigoProducto" class="form-control" placeholder="Ingrese Codigo Producto">
+                                                            <input type="text" name="codigoProducto" id="codigoProducto" required="" class="form-control" placeholder="Ingrese Codigo Producto">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Producto</label>
-                                                        <input type="text" name="producto" class="form-control" placeholder="Producto">
+                                                        <input type="text" name="producto" id="producto" required="" class="form-control" placeholder="Producto">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label>Descripcion</label>                                                      
-                                                        <input type="text" name="descripcion" class="form-control" placeholder="Descripcion">                                                       
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Seleccione Unidad Medida</label>                                                    
-                                                        <select class="form-control" name="cboUnidadMedida">
-                                                            <option value="Decena">Decena</option>
-                                                            <option value="Unidad">Unidad</option>
-                                                            <option value="Docena">Docena</option>
-                                                        </select>                                                       
+                                                        <label>Descripción</label>
+                                                        <textarea name="descripcion" id="descripcion" required="" rows="3"  class="form-control" placeholder="Descripción del producto"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label>Precio</label>
+                                                        <label>Precio Venta</label>
                                                         <div class="input-group">                                               
                                                             <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                                            <input name="precio" type="text" class="form-control" placeholder="$ 8.50">
+                                                            <input type="text" name="precioVenta" required="" class="form-control" placeholder="$ 8.50">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Precio Compra</label>
+                                                        <div class="input-group">                                               
+                                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                                            <input type="text" name="precioCompra" required="" class="form-control" placeholder="$ 8.50">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Stock</label> 
                                                         <div class="input-group"> 
                                                             <span class="input-group-addon"><i class=" fa fa-hand-o-right"></i></span>
-                                                            <input name="stock" type="text" class="form-control" placeholder="100">
+                                                            <input type="number" name="stock" id="stock" required="" class="form-control" placeholder="100">
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>                                           
-                                            <div class="form-group">                                               
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" name="chkVigencia" 
-                                                               <c:out value="${producto.estado == false ? 'unchecked' : 'checked'}"
-                                                                      default="" />>Activo
-                                                    </label>
-                                                </div>                                                
-                                            </div>                                              
+                                            </div>   
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Seleccione Categoria</label>
+                                                        <select name="cboCategoria" id="cboCategoria" required="" class="form-control">
+                                                            <option>Cargando...</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Seleccione Marca</label>
+                                                        <select name="cboMarca" id="cboMarca" required="" class="form-control">
+                                                            <option>Cargando...</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Seleccione Proveedor</label>
+                                                        <select name="cboProveedor" id="cboProveedor" required="" class="form-control">
+                                                            <option>Cargando...</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="imagen">Seleccionar un archivo</label>
+                                                        <input required="" type="file" id="imagen" name="imagen">
+                                                        <p class="help-block">Formato admitido son: JPG, PNG, JPEG.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label>Estado del Producto</label>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input checked="" disabled="" required="" id="chkVigencia" name="chkVigencia" type="checkbox"> Activo / Inactivo
+                                                            <p class="help-block">Si el checkbox está seleccionado significa que está activo. por seguridad está deshabilitado</p>
+                                                        </label>
+                                                    </div>
+                                                </div> 
+                                            </div>                                          
                                         </div>
                                         <div class="modal-footer">
                                             <button type="reset" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close red"></i> Cancelar</button>
-                                            <button type="submit" value="Registrar" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Registrar</button>  
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Registrar</button>  
                                         </div>
                                     </form>
                                 </div>

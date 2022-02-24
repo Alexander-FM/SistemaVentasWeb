@@ -3,9 +3,11 @@ package Controlador;
 import Modelo.Categoria;
 import Modelo.Marca;
 import Modelo.Producto;
+import Modelo.Proveedor;
 import Modelo.categoriaDAO;
 import Modelo.marcaDAO;
 import Modelo.productoDAO;
+import Modelo.proveedorDAO;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +47,9 @@ public class SrvProducto extends HttpServlet {
                     break;
                 case "liMarcas":
                     this.listarMarcas(response);
+                    break;
+                case "liProveedores":
+                    this.listarProveedores(response);
                     break;
                 case "re":
                     this.registrarProducto(request, response);
@@ -148,19 +153,32 @@ public class SrvProducto extends HttpServlet {
         }
     }
 
+    private void listarProveedores(HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
+        try {
+            proveedorDAO dao = new proveedorDAO();
+            List<Proveedor> prov = dao.listarProveedoresActivos();
+            Gson gson = new Gson();
+            String json = gson.toJson(prov);
+            out.print(json);
+        } catch (Exception e) {
+            this.printError(e.getMessage(), response);
+        }
+    }
+
     private void registrarProducto(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         productoDAO daoProd;
         Producto prod = null;
 
-        if (request.getParameter("cboCategoria") != null
-                && request.getParameter("cboMarca") != null
-                && request.getParameter("codigoProducto") != null
+        if (request.getParameter("codigoProducto") != null
                 && request.getParameter("producto") != null
                 && request.getParameter("descripcion") != null
                 && request.getParameter("precioVenta") != null
                 && request.getParameter("precioCompra") != null
                 && request.getParameter("stock") != null
-                && request.getParameter("fechaRegistro") != null
+                && request.getParameter("cboCategoria") != null
+                && request.getParameter("cboMarca") != null
+                && request.getParameter("cboProveedor") != null
                 && request.getParameter("imagen") != null) {
 
             prod = new Producto();
@@ -170,17 +188,17 @@ public class SrvProducto extends HttpServlet {
             prod.setPrecioVenta(Double.parseDouble(request.getParameter("precioVenta")));
             prod.setPrecioCompra(Double.parseDouble(request.getParameter("precioCompra")));
             prod.setStock(Integer.parseInt(request.getParameter("stock")));
+            prod.setCategoria(new Categoria());
+            prod.getCategoria().setCodigo(Integer.parseInt(request.getParameter("cboCategoria")));
+            prod.setMarca(new Marca());
+            prod.getMarca().setCodigo(Integer.parseInt(request.getParameter("cboMarca")));
+            prod.setProveedor(new Proveedor());
+            prod.getProveedor().setCodigo(Integer.parseInt(request.getParameter("cboProveedor")));
             /**
              * Con esto obtenemos la fecha actual del sistema
              */
             String fechaActual = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
             prod.setFechaRegistro(Date.valueOf(fechaActual));
-            prod.setCategoria(new Categoria());
-            prod.getCategoria().setCodigo(Integer.parseInt(request.getParameter("cboCategoria")));
-            prod.setMarca(new Marca());
-            prod.getMarca().setCodigo(Integer.parseInt(request.getParameter("cboMarca")));
-            /*prod.setProveedor(new Proveedor());
-            prod.getProveedor().setId(Integer.parseInt(request.getParameter("combo_proveedor")));*/
             //Guardar Imagen
             Part part = request.getPart("imagen");//Nombre de nuestro input de tipo file.
             String nombreArchivo = Paths.get(part.getSubmittedFileName()).getFileName().toString(); //Conseguir el nombre del archivo
@@ -199,8 +217,9 @@ public class SrvProducto extends HttpServlet {
                 response.sendRedirect("vista/productos.jsp");
             } catch (Exception e) {
                 request.setAttribute("msje", "No se pudo registrar el producto" + e.getMessage());
-                request.setAttribute("marca", prod);
             }
+        } else {
+            request.setAttribute("msje", "Complete los campos");
         }
     }
 

@@ -13,9 +13,9 @@ public class Producto {
     private double precioVenta;
     private double precioCompra;
     private int stock;
-    private String unidadMedida;
     private boolean estado;
     private Categoria categoria;
     private Marca marca;
+    private Proveedor proveedor;
     private Date fechaRegistro;   
 }

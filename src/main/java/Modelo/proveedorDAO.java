@@ -11,7 +11,7 @@ public class proveedorDAO extends Conexion {
         List<Proveedor> proveedores = null;
         Proveedor pro;
         ResultSet rs = null;
-        String sql = "SELECT* FROM Proveedor";
+        String sql = "SELECT * FROM Proveedor";
 
         try {
             this.conectar(false);
@@ -25,6 +25,36 @@ public class proveedorDAO extends Conexion {
                 pro.setDireccion(rs.getString("direccion"));
                 pro.setTelefono(rs.getString("telefono"));
                 pro.setEstado(rs.getBoolean("estado"));
+                proveedores.add(pro);
+            }
+            rs.close();
+            this.cerrar(true);
+        } catch (Exception e) {
+            this.cerrar(false);
+            throw e;
+        } finally {
+            if (rs != null && rs.isClosed() == false) {
+                rs.close();
+            }
+            rs = null;
+        }
+        return proveedores;
+    }
+    
+     public List<Proveedor> listarProveedoresActivos() throws Exception {
+        List<Proveedor> proveedores = null;
+        Proveedor pro;
+        ResultSet rs = null;
+        String sql = "SELECT idProveedor, razonSocial FROM Proveedor WHERE estado = 1";
+
+        try {
+            this.conectar(false);
+            rs = this.ejecutarOrdenDatos(sql);
+            proveedores = new ArrayList<>();
+            while (rs.next() == true) {
+                pro = new Proveedor();
+                pro.setCodigo(rs.getInt("idProveedor"));
+                pro.setRazonSocial(rs.getString("razonSocial"));
                 proveedores.add(pro);
             }
             rs.close();

@@ -17,7 +17,7 @@ public class productoDAO extends Conexion {
         String sql;
 
         sql = "INSERT INTO Producto (codigoProducto, Producto, Descripcion, Imagen, PrecioVenta, PrecioCompra, Stock, "
-                + "Estado, fechaRegistro, idCategoria, idMarca) "
+                + "Estado, fechaRegistro, idCategoria, idMarca, idProveedor) "
                 + "VALUES('" + producto.getCodigoProducto() + "', '"
                 + producto.getProducto() + "', '"
                 + producto.getDescripcion() + "', '"
@@ -28,7 +28,8 @@ public class productoDAO extends Conexion {
                 + (producto.isEstado() == true ? "1" : "0")
                 + producto.getFechaRegistro() + ", '"
                 + "', " + producto.getCategoria().getCodigo()
-                + ", " + producto.getMarca().getCodigo() + ")";
+                + ", " + producto.getMarca().getCodigo() + ", "
+                + ", " + producto.getProveedor().getCodigo() + ")";
 
         try {
             this.conectar(false);
