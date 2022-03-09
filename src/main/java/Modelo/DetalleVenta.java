@@ -8,5 +8,9 @@ import lombok.Data;
  */
 @Data
 public class DetalleVenta {
+    private int idDetalleVenta;
+    private Venta venta;
+    private Producto producto;
+    private int cantidad;
     private double precioVenta;
 }

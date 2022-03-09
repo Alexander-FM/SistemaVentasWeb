@@ -1,5 +1,7 @@
 var tablaProductoConBajoStock = $("table#tablaProductosConBajoStock");
 $(document).ready(function () {
+    let li_inicio = $('#li_inicio');
+    li_inicio.attr('class', 'active'); //Añadimos la clase
     top10ProductosConStockBajo();
     top10UltimosProductosRegistrados();
     totalVentasRealizadas();
