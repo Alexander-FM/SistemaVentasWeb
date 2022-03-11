@@ -3,6 +3,11 @@ var tabla = $("table#tablaProductos"),
         cboCategoria = $("#cboCategoria"),
         cboMarca = $("#cboMarca");
 $(document).ready(function () {
+    /** Con esto aplicamos la clase active el menu correspondiente */
+    let li_grupoRegistros = $('#li_grupoRegistros');
+    li_grupoRegistros.attr('class', 'treeview active menu-open'); //Añadimos la clase
+    let li_productos = $('#li_productos');
+    li_productos.attr('class', 'active');
     listarProductos();
     listarCategorias();
     listarMarcas();

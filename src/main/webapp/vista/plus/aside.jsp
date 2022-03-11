@@ -7,21 +7,21 @@
                 <img src="../dist/img/avatar3.png" class="img-circle"  alt=""/>
             </div>
             <div style="margin-top: 12px" class="pull-left info">
-                <p>¡Hola, ${usuario.nombre}!</p>
+                <p>Hola, ${usuario.nombre}</p>
             </div>
         </div>
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree" style="margin-top: 20px;">
             <!-- Optionally, you can add icons to the links -->
             <li id="li_inicio"><a href="../vista/inicio.jsp"><i class="fa fa-home"></i><span>Inicio</span></a></li>
-            <li class="treeview">
+            <li id="li_grupoRegistros" class="treeview">
                 <a href="#"><i class="glyphicon glyphicon-th-large"></i><span>Registros</span>
                     <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="../vista/productos.jsp"><i class="fa fa-cube"></i><span>Productos</span></a></li>
-                    <li><a href="../vista/categorias.jsp"><i class="fa fa-bookmark-o"></i><span>Categorias</span></a></li>
-                    <li><a href="../vista/marcas.jsp"><i class="fa fa-tags"></i><span>Marcas</span></a></li>
+                    <li id="li_productos"><a href="../vista/productos.jsp"><i class="fa fa-cube"></i><span>Productos</span></a></li>
+                    <li id="li_categorias"><a href="../vista/categorias.jsp"><i class="fa fa-bookmark-o"></i><span>Categorias</span></a></li>
+                    <li id="li_marcas"><a href="../vista/marcas.jsp"><i class="fa fa-tags"></i><span>Marcas</span></a></li>
                 </ul>
             </li>
             <li id="li_grupoVentas" class="treeview">
@@ -44,7 +44,7 @@
                     <li><a href="#"><i class="fa fa-line-chart"></i><span>Administrar Compras </span></a></li>
                 </ul>
             </li>
-            <li><a href="../vista/empleados.jsp"><i class="fa fa-user"></i><span>Empleados</span></a></li>
+            <li id="li_empleados"><a href="../vista/empleados.jsp"><i class="fa fa-user"></i><span>Empleados</span></a></li>
             <li class="treeview">
                 <a href="#"><i class="fa fa-line-chart"></i><span>Reportes</span>
                     <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>

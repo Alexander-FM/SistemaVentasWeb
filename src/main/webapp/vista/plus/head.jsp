@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
 <!-- Font Awesome -->
 <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
+<!-- Sweet Alert -->
+<link href="../plugins/sweetAlert/sweetalert.css" rel="stylesheet" type="text/css">
 <!-- Ionicons -->
 <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
 <!-- Data Table -->   
@@ -17,7 +19,6 @@
     page. However, you can choose any other skin. Make sure you
     apply the skin class to the body tag so the changes take effect. -->
 <link rel="stylesheet" href="../dist/css/skins/skin-blue.min.css">
-<!-- Sweer Alert -->
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">

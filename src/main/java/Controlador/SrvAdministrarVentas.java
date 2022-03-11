@@ -1,5 +1,7 @@
 package Controlador;
 
+import Modelo.Compra;
+import Modelo.DetalleVenta;
 import Modelo.Producto;
 import Modelo.Venta;
 import Modelo.productoDAO;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "SrvAdministrarVentas", urlPatterns = {"/AdministrarVentas"})
 public class SrvAdministrarVentas extends HttpServlet {
+
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     response.setContentType("application/json;charset=UTF-8");
@@ -23,11 +26,15 @@ public class SrvAdministrarVentas extends HttpServlet {
 
     if (request.getParameter("accion") != null) {
       accion = request.getParameter("accion");
-      //li=listar, le=leer, nu=nuevo; re=registrar,
-      //pr=presentar,ac=actualizar
       switch (accion) {
         case "listarVentas":
           this.listarVentas(response);
+          break;
+        case "listarDetalleVenta":
+          this.listarDetalleVentas(response, request);
+          break;
+        case "anularVenta":
+          this.anularVenta(request, response);
           break;
       }
     } else {
@@ -38,6 +45,7 @@ public class SrvAdministrarVentas extends HttpServlet {
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
   /**
    * Handles the HTTP <code>GET</code> method.
    *
@@ -79,6 +87,16 @@ public class SrvAdministrarVentas extends HttpServlet {
   private void printError(String msjError, HttpServletResponse response) throws IOException {
     response.getWriter().print("{\"msj\": \"" + msjError + "\"}");
   }
+
+  private void printMessage(String msj, boolean rpt, HttpServletResponse response) throws IOException {
+    response.getWriter().print("{\"rpt\": " + rpt + ", \"msj\": \"" + msj + "\"}");
+  }
+
+  /**
+   * Este método lista todas las ventas registradas en la base de datos
+   * @param response
+   * @throws IOException
+   */
   private void listarVentas(HttpServletResponse response) throws IOException {
     PrintWriter out = response.getWriter();
     try {
@@ -89,6 +107,64 @@ public class SrvAdministrarVentas extends HttpServlet {
       out.print(json);
     } catch (Exception e) {
       this.printError(e.getMessage(), response);
+    }
+  }
+
+  /**
+   * Este método retorna una lista con el detalle de una venta
+   * @param response
+   * @param request
+   * @throws IOException
+   */
+  private void listarDetalleVentas(HttpServletResponse response, HttpServletRequest request) throws IOException {
+    ventaDAO dao;
+    Venta vent;
+    List<DetalleVenta> detalles;
+    if (request.getParameter("idVenta") != null) {
+      vent = new Venta();
+      vent.setIdVenta(Integer.parseInt(request.getParameter("idVenta")));
+      try {
+        dao = new ventaDAO();
+        detalles = dao.listarDetallesVentas(vent);
+        String json = new Gson().toJson(detalles);
+        response.getWriter().print(json);
+      } catch (Exception e) {
+        this.printMessage(e.getMessage(), false, response);
+      }
+    } else {
+      this.printMessage("No se tiene el parametro de la ventra", false, response);
+    }
+  }
+
+  /**
+   * Este método anular la venta y no sé podrá revertir, además actualizará el stock de los productos por ejemplo:
+   * si el producto que ordeno tuvo como stock 10, y la en la venta se llevaron 3 de ese producto, entonces, esa cantidad
+   * regresará al stock de los productos.
+   * @param request
+   * @param response
+   */
+  private void anularVenta(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Venta venta;
+    DetalleVenta detalleVenta;
+    if (request.getParameter("id") != null
+        && request.getParameter("cantProd") != null
+        && request.getParameter("idProd") != null) {
+      venta = new Venta();
+      venta.setIdVenta(Integer.parseInt(request.getParameter("id")));
+      detalleVenta = new DetalleVenta();
+      detalleVenta.setCantidad(Integer.parseInt(request.getParameter("cantProd")));
+      detalleVenta.setProducto(new Producto());
+      detalleVenta.getProducto().setCodigo(Integer.parseInt(request.getParameter("idProd")));
+      try {
+        ventaDAO dao = new ventaDAO();
+        dao.anularVenta(venta);
+        dao.actualizarStockProducto(detalleVenta);
+        this.printMessage("La anulación de la venta se realizó correctamente, y se actualizó el stock del producto", true, response);
+      } catch (Exception e) {
+        this.printMessage(e.getMessage(), false, response);
+      }
+    } else {
+      this.printMessage("No se obtuvo los parámetros", false, response);
     }
   }
 }

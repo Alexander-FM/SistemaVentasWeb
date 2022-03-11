@@ -25,6 +25,35 @@
         </section>
         <!-- Main content -->
         <section class="content">
+            <!-- Modal Detalle Venta -->
+            <div class="modal fade" id="mdlDetalleVenta">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="border-radius: 15px">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Detalle Venta</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table id="tablaDetalleVenta" class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Producto</th>
+                                    <th class="text-center">Imagen</th>
+                                    <th class="text-center">Cantidad</th>
+                                    <th class="text-center">Precio</th>
+                                    <th class="text-center">SubTotal</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-primary">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.Modal Detalle Venta -->
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box box-primary">
@@ -75,6 +104,8 @@
 <script src="../dist/js/adminlte.min.js"></script>
 <!-- Script Productos -->
 <script src="../js/scriptAdministrarVentas.js"></script>
+<!-- Sweet Alert -->
+<script src="../plugins/sweetAlert/sweetalert.js" type="text/javascript"></script>
 </body>
 </html>
 <%
