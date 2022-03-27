@@ -18,6 +18,7 @@ go
 insert into Categoria values ('Chocolates', 1)
 insert into Categoria values ('Bebidas', 1)
 insert into Categoria values ('Televisores OLED', 1)
+insert into Categoria values ('Televisores QLED', 1)
 go
 
 select* from Categoria
@@ -36,6 +37,7 @@ insert into Marca values ('Pepsi', 1)
 insert into Marca values ('Coca Cola', 1)
 insert into Marca values ('Inka Kola', 1)
 insert into Marca values ('LG Electronics', 1)
+insert into Marca values ('Samsung', 1)
 go
 
 select* from Marca
@@ -69,6 +71,7 @@ insert into Proveedor values ('Coca Cola Company', 2, '20198745656', 'Lima - San
 insert into Proveedor values ('Donofrio Company', 2, '10496358274', 'Lima - San Isidro', '978456987', 'donofrio@gmail.com', 1)
 insert into Proveedor values ('Gloria Company', 2, '20169358247', 'Lima - San Tomas', '654789231', 'gloria@live.com', 1)
 insert into Proveedor values ('GN Company', 2, '20485296374', 'Lima - San Felipe', '258963147', 'gn@outlook.com', 1)
+insert into Proveedor values ('Amazon', 2, '20485296374', 'EE.UU - New York', '0196325824', 'amazon@amazon.com', 1)
 go
 
 select* from Proveedor
@@ -94,6 +97,8 @@ go
 
 Insert Into Producto Values('LGOLED2022', 'LG OLED TV', 'LG 65" 4K 120Hz OLED Smart TV', '6000.00', '5000.00', 2, 1, '2022/02/22', 'http://localhost:8080/SistemaVentasWeb/imgProducts/lgOled.png', 3, 5, 1)
 Go
+select * from Producto
+delete from Producto where codigoProducto = 'QN49Q6FNAGXPE'
 
 create table Empleado
 (

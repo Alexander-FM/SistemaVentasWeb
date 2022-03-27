@@ -40,7 +40,7 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span></button>
                                         <h4 class="modal-title">Gestión Productos</h4>
-                                    </div>
+                                    </div>                                                                       
                                     <form action="../Producto?accion=re" method="post" id="frmProducto" enctype="multipart/form-data">
                                         <div class="modal-body">
                                             <div class="row" style="margin-bottom: 10px">

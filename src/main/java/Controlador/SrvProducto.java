@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -27,8 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-@MultipartConfig
 @WebServlet(name = "SrvProducto", urlPatterns = {"/Producto"})
+@MultipartConfig
 public class SrvProducto extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -171,7 +172,6 @@ public class SrvProducto extends HttpServlet {
     private void registrarProducto(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         productoDAO daoProd;
         Producto prod = null;
-
         if (request.getParameter("codigoProducto") != null
                 && request.getParameter("producto") != null
                 && request.getParameter("descripcion") != null
@@ -180,8 +180,7 @@ public class SrvProducto extends HttpServlet {
                 && request.getParameter("stock") != null
                 && request.getParameter("cboCategoria") != null
                 && request.getParameter("cboMarca") != null
-                && request.getParameter("cboProveedor") != null
-                && request.getParameter("imagen") != null) {
+                && request.getParameter("cboProveedor") != null) {
 
             prod = new Producto();
             prod.setCodigoProducto(request.getParameter("codigoProducto"));
@@ -196,16 +195,12 @@ public class SrvProducto extends HttpServlet {
             prod.getMarca().setCodigo(Integer.parseInt(request.getParameter("cboMarca")));
             prod.setProveedor(new Proveedor());
             prod.getProveedor().setCodigo(Integer.parseInt(request.getParameter("cboProveedor")));
-            /**
-             * Con esto obtenemos la fecha actual del sistema
-             */
-            String fechaActual = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
-            prod.setFechaRegistro(Date.valueOf(fechaActual));
+            prod.setFechaRegistro(Date.valueOf(LocalDate.now()));
             //Guardar Imagen
             Part part = request.getPart("imagen");//Nombre de nuestro input de tipo file.
             String nombreArchivo = Paths.get(part.getSubmittedFileName()).getFileName().toString(); //Conseguir el nombre del archivo
             //Ruta donde se guarda la imagen
-            File file = new File("C:\\Users\\lfuenmed\\OneDrive - NTT DATA EMEAL\\Documentos\\NetBeansProjects\\SistemaVentasWeb\\src\\main\\webapp\\imgProducts\\" + nombreArchivo);
+            File file = new File("C:\\SistemaVentasWeb\\src\\main\\webapp\\imgProducts\\" + nombreArchivo);
             Files.copy(part.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             prod.setImagen("http://localhost:8080/SistemaVentasWeb/imgProducts/" + nombreArchivo);
             if (request.getParameter("chkVigencia") != null) {
