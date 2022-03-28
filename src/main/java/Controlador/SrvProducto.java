@@ -117,6 +117,10 @@ public class SrvProducto extends HttpServlet {
         response.getWriter().print("{\"msj\": \"" + msjError + "\"}");
     }
 
+    private void printMessage(String msj, boolean rpt, HttpServletResponse response) throws IOException {
+        response.getWriter().print("{\"rpt\": " + rpt + ", \"msj\": \"" + msj + "\"}");
+    }
+
     private void listarProductos(HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         try {
@@ -220,10 +224,81 @@ public class SrvProducto extends HttpServlet {
         }
     }
 
-    private void presentarProducto(HttpServletRequest request, HttpServletResponse response) {
+    private void presentarProducto(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        productoDAO dao;
+        Producto pro;
+        if (request.getParameter("id") != null) {
+            pro = new Producto();
+            pro.setCodigo(Integer.parseInt(request.getParameter("id")));
+            try {
+                dao = new productoDAO();
+                pro = dao.leer(pro);
+                String json = new Gson().toJson(pro);
+                response.getWriter().print(json);
+            } catch (Exception e) {
+                this.printMessage(e.getMessage(), false, response);
+            }
+        } else {
+            this.printMessage("No se tiene el parametro del producto", false, response);
+        }
     }
 
-    private void actualizarProducto(HttpServletRequest request, HttpServletResponse response) {
+    private void actualizarProducto(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        productoDAO daoProd;
+        Producto prod = null;
+        if (request.getParameter("codigoProductoAc") != null
+                && request.getParameter("productoAc") != null
+                && request.getParameter("descripcionAc") != null
+                && request.getParameter("precioVentaAc") != null
+                && request.getParameter("precioCompraAc") != null
+                && request.getParameter("stockAc") != null
+                && request.getParameter("cboCategoriaAc") != null
+                && request.getParameter("cboMarcaAc") != null
+                && request.getParameter("cboProveedorAc") != null) {
+
+            prod = new Producto();
+            prod.setCodigo(Integer.parseInt(request.getParameter("idProd")));
+            prod.setCodigoProducto(request.getParameter("codigoProductoAc"));
+            prod.setProducto(request.getParameter("productoAc"));
+            prod.setDescripcion(request.getParameter("descripcionAc"));
+            prod.setFechaRegistro(Date.valueOf(request.getParameter("fechaProd")));
+            prod.setPrecioVenta(Double.parseDouble(request.getParameter("precioVentaAc")));
+            prod.setPrecioCompra(Double.parseDouble(request.getParameter("precioCompraAc")));
+            prod.setStock(Integer.parseInt(request.getParameter("stockAc")));
+            prod.setCategoria(new Categoria());
+            prod.getCategoria().setCodigo(Integer.parseInt(request.getParameter("cboCategoriaAc")));
+            prod.setMarca(new Marca());
+            prod.getMarca().setCodigo(Integer.parseInt(request.getParameter("cboMarcaAc")));
+            prod.setProveedor(new Proveedor());
+            prod.getProveedor().setCodigo(Integer.parseInt(request.getParameter("cboProveedorAc")));
+            //Actualizar Imagen
+            if (request.getParameter("chkConservarImagen") == null) {
+                Part part = request.getPart("imagenAc");//Nombre de nuestro input de tipo file.
+                String nombreArchivo = Paths.get(part.getSubmittedFileName()).getFileName().toString(); //Conseguir el nombre del archivo
+                //Ruta donde se guarda la imagen
+                File file = new File("C:\\SistemaVentasWeb\\src\\main\\webapp\\imgProducts\\" + nombreArchivo);
+                Files.copy(part.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                prod.setImagen("http://localhost:8080/SistemaVentasWeb/imgProducts/" + nombreArchivo);
+            } else {
+                /** En caso de que no se actualice la imagen del producto, setearemos la imagen por defecto*/
+                prod.setImagen(request.getParameter("txtConservarImagen"));
+
+            }
+            if (request.getParameter("chkVigenciaAc") != null) {
+                prod.setEstado(true);
+            } else {
+                prod.setEstado(false);
+            }
+            daoProd = new productoDAO();
+            try {
+                daoProd.actualizar(prod);
+                response.sendRedirect("vista/productos.jsp");
+            } catch (Exception e) {
+                request.setAttribute("msje", "No se pudo registrar el producto" + e.getMessage());
+            }
+        } else {
+            request.setAttribute("msje", "Complete los campos");
+        }
     }
 
     private void eliminarProducto(HttpServletRequest request, HttpServletResponse response) {

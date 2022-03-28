@@ -98,7 +98,6 @@ go
 Insert Into Producto Values('LGOLED2022', 'LG OLED TV', 'LG 65" 4K 120Hz OLED Smart TV', '6000.00', '5000.00', 2, 1, '2022/02/22', 'http://localhost:8080/SistemaVentasWeb/imgProducts/lgOled.png', 3, 5, 1)
 Go
 select * from Producto
-delete from Producto where codigoProducto = 'QN49Q6FNAGXPE'
 
 create table Empleado
 (

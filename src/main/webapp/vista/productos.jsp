@@ -33,6 +33,7 @@
                                 </button>      
                             </div>
                         </div><br><br>
+                        <!-- Modal para registrar los productos -->
                         <div class="modal fade" id="modalproduc">
                             <div class="modal-dialog">
                                 <div class="modal-content" style="border-radius: 15px">
@@ -43,11 +44,6 @@
                                     </div>                                                                       
                                     <form action="../Producto?accion=re" method="post" id="frmProducto" enctype="multipart/form-data">
                                         <div class="modal-body">
-                                            <div class="row" style="margin-bottom: 10px">
-                                                <div class="col-md-12">
-                                                    <label class="label label-danger">${msje}</label>
-                                                </div>
-                                            </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -159,15 +155,158 @@
                             </div>
                             <!-- /.modal-dialog -->
                         </div>
+                        <!-- ./Modal para registrar los productos -->
+                        <!-- Modal para actualizar los productos -->
+                        <div class="modal fade" id="modal-actualizarProductos">
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="border-radius: 15px">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">Gestión Productos</h4>
+                                    </div>                                                                       
+                                    <form action="../Producto?accion=ac" method="post" id="frmProducto" enctype="multipart/form-data">
+                                        <input type="hidden" name="idProd" id="idProd" value="0">
+                                        <input type="hidden" name="fechaProd" id="fechaProd" value="0">
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Codigo Producto</label>
+                                                        <div class="input-group">                                               
+                                                            <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+                                                            <input type="text" name="codigoProductoAc" id="codigoProductoAc" required="" class="form-control" placeholder="Ingrese Codigo Producto">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Producto</label>
+                                                        <input type="text" name="productoAc" id="productoAc" required="" class="form-control" placeholder="Producto">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Descripción</label>
+                                                        <textarea name="descripcionAc" id="descripcionAc" required="" rows="3"  class="form-control" placeholder="Descripción del producto"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Precio Venta</label>
+                                                        <div class="input-group">                                               
+                                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                                            <input type="text" name="precioVentaAc" id="precioVentaAc" required="" class="form-control" placeholder="$ 8.50">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Precio Compra</label>
+                                                        <div class="input-group">                                               
+                                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                                            <input type="text" name="precioCompraAc" id="precioCompraAc" required="" class="form-control" placeholder="$ 8.50">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Stock</label> 
+                                                        <div class="input-group"> 
+                                                            <span class="input-group-addon"><i class=" fa fa-hand-o-right"></i></span>
+                                                            <input type="number" name="stockAc" id="stockAc" required="" class="form-control" placeholder="100">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>   
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Seleccione Categoria</label>
+                                                        <select name="cboCategoriaAc" id="cboCategoriaAc" required="" class="form-control">
+                                                            <option>Cargando...</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Seleccione Marca</label>
+                                                        <select name="cboMarcaAc" id="cboMarcaAc" required="" class="form-control">
+                                                            <option>Cargando...</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Seleccione Proveedor</label>
+                                                        <select name="cboProveedorAc" id="cboProveedorAc" required="" class="form-control">
+                                                            <option>Cargando...</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="imagenAc">Seleccionar un archivo</label>
+                                                        <input required="" type="file" id="imagenAc" name="imagenAc">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Estado del Producto</label>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input required="" id="chkVigenciaAc" name="chkVigenciaAc" type="checkbox"> Activo / Inactivo
+                                                        </label>
+                                                    </div>
+                                                </div> 
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>¿Desea conservar la misma imagen?</label>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input onchange="cambiarPropiedad()" type="checkbox" name="chkConservarImagen" value="true" id="chkConservarImagen"> Sí / No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">      
+                                                <div class="col-md-12 text-center">
+                                                    <div class="form-group">
+                                                        <img id="imagenProdAc" src="../imagenes/image_not_found.png" width="250px"/>
+                                                        <input type="hidden" name="txtConservarImagen" id="txtConservarImagen">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="reset" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close red"></i> Cancelar</button>
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Registrar</button>  
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- ./Modal para actualizar los productos -->                        
                         <div class="col-xs-12">
                             <div class="box box-primary">
                                 <div class="box-header">
                                     <h3 class="box-title">Listado de Productos</h3>   
                                 </div>
                                 <div class="box-body">
-                                    <table id="tablaProductos" class="table table-bordered table-hover">
+                                    <table id="tablaProductos" class="table table-responsive table-bordered table-hover">
                                         <thead>
                                             <tr>
+                                                <th class="text-center">Id</th>
                                                 <th class="text-center">Codigo Barras</th>
                                                 <th class="text-center">Producto</th>
                                                 <th class="text-center">Imagen</th>
@@ -204,6 +343,8 @@
         <!-- Datatables -->
         <script src="../bower_components/datatables/jquery.dataTables.js" type="text/javascript"></script>
         <script src="../bower_components/datatables-bs4/js/dataTables.bootstrap4.js" type="text/javascript"></script>
+        <!-- SweetAlert -->
+        <script src="../plugins/sweetAlert/sweetalert.min.js" type="text/javascript"></script>
         <!-- AdminLTE App -->     
         <script src="../dist/js/adminlte.min.js"></script>
         <!-- Script Productos -->     

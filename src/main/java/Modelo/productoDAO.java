@@ -24,10 +24,10 @@ public class productoDAO extends Conexion {
                 + producto.getImagen() + "', "
                 + producto.getPrecioVenta() + ", "
                 + producto.getPrecioCompra() + ", "
-                + producto.getStock() + ", '" 
+                + producto.getStock() + ", '"
                 + producto.getFechaRegistro() + "', "
-                + producto.getCategoria().getCodigo() + ", " 
-                + producto.getMarca().getCodigo() + ", " 
+                + producto.getCategoria().getCodigo() + ", "
+                + producto.getMarca().getCodigo() + ", "
                 + producto.getProveedor().getCodigo() + ", 1)";
 
         try {
@@ -98,4 +98,65 @@ public class productoDAO extends Conexion {
         }
     }
 
+    public Producto leer(Producto producto) throws Exception {
+        Producto prod = null;
+        ResultSet rs = null;
+        String sql = "SELECT P.idProducto, P.codigoProducto, P.estado, P.producto, P.imagen, P.descripcion, "
+                + "P.fechaRegistro, P.precioVenta, P.precioCompra, P.stock, P.idCategoria, P.idMarca, P.idProveedor "
+                + "FROM producto P WHERE P.idProducto = " + producto.getCodigo();
+        try {
+            this.conectar(false);
+            rs = this.ejecutarOrdenDatos(sql);
+            if (rs.next() == true) {
+                prod = new Producto();
+                prod.setCodigo(rs.getInt("idProducto"));
+                prod.setCodigoProducto(rs.getString("codigoProducto"));
+                prod.setEstado(rs.getBoolean("estado"));
+                prod.setProducto(rs.getString("producto"));
+                prod.setImagen(rs.getString("imagen"));
+                prod.setDescripcion(rs.getString("descripcion"));
+                prod.setFechaRegistro(rs.getDate("fechaRegistro"));
+                prod.setPrecioVenta(rs.getDouble("precioVenta"));
+                prod.setPrecioCompra(rs.getDouble("precioCompra"));
+                prod.setStock(rs.getInt("stock"));
+                prod.setCategoria(new Categoria());
+                prod.getCategoria().setCodigo(rs.getInt("idCategoria"));
+                prod.setMarca(new Marca());
+                prod.getMarca().setCodigo(rs.getInt("idMarca"));
+                prod.setProveedor(new Proveedor());
+                prod.getProveedor().setCodigo(rs.getInt("idProveedor"));
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            this.cerrar(false);
+        }
+        return prod;
+    }
+
+    public void actualizar(Producto producto) throws Exception {
+        String sql;
+        sql = "UPDATE producto SET codigoProducto = '" + producto.getCodigoProducto()
+                + "', Producto = '" + producto.getProducto()
+                + "', Descripcion = '" + producto.getDescripcion()
+                + "', Imagen = '" + producto.getImagen()
+                + "', PrecioVenta = " + producto.getPrecioVenta()
+                + ", PrecioCompra = " + producto.getPrecioCompra()
+                + ", Stock = " + producto.getStock()
+                + ", fechaRegistro = '" + producto.getFechaRegistro()
+                + "', Estado = " + (producto.isEstado() == true ? "1" : "0")
+                + ", idCategoria = " + producto.getCategoria().getCodigo()
+                + ", idMarca = " + producto.getMarca().getCodigo()
+                + ", idProveedor = " + producto.getProveedor().getCodigo()
+                + " WHERE idProducto = " + producto.getCodigo();
+
+        try {
+            this.conectar(false);
+            this.ejecutarOrden(sql);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            this.cerrar(false);
+        }
+    }
 }
