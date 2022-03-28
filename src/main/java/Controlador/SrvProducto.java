@@ -310,7 +310,7 @@ public class SrvProducto extends HttpServlet {
             dao = new productoDAO();
             try {
                 dao.eliminar(prod);
-                response.sendRedirect("vista/productos.jsp");
+                printMessage("Producto eliminado correctamente", true, response);
             } catch (Exception e) {
                 request.setAttribute("msje", "No se pudo eliminar el producto" + e.getMessage());
             }

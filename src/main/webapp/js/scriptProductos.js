@@ -134,7 +134,7 @@ function eliminar(idTemp) {
                         dataType: 'json',
                         data: {cod: idTemp},
                         success: function (data) {
-                            swal("Desactivado!", data.msj, "success");
+                            swal("Eliminado!", data.msj, "success");
                             listarProductos();
                         }
                     });
