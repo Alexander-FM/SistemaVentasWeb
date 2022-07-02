@@ -15,6 +15,8 @@
 <link href="../bower_components/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" type="text/css"/>
 <!-- SweetAlert -->
 <link href="../plugins/sweetAlert/sweetalert.css" rel="stylesheet" type="text/css"/>
+<!-- Select2 -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <!-- Theme style -->
 <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
 <!-- AdminLTE Skins. We have chosen the skin-blue for this starter

@@ -29,7 +29,7 @@
                     <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                 </a>
                 <ul class="treeview-menu">
-                    <li id="li_nuevaVenta"><a href="#"><i class="fa fa-plus"></i><span>Nueva Venta</span></a></li>
+                    <li id="li_nuevaVenta"><a href="../vista/ventas.jsp"><i class="fa fa-plus"></i><span>Nueva Venta</span></a></li>
                     <li id="li_clientes"><a href="../vista/clientes.jsp"><i class="fa fa-users"></i><span>Clientes</span></a></li>
                     <li id="li_administrarVentas"><a href="../vista/administrarVentas.jsp"><i class="fa fa-bar-chart-o"></i><span>Administrar Ventas</span></a></li>
                 </ul>

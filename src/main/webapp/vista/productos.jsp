@@ -50,14 +50,14 @@
                                                         <label>Codigo Producto</label>
                                                         <div class="input-group">                                               
                                                             <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
-                                                            <input type="text" name="codigoProducto" id="codigoProducto" required="" class="form-control" placeholder="Ingrese Codigo Producto">
+                                                            <input type="text" name="codigoProducto" id="codigoProducto" maxlength="10" required="" class="form-control" placeholder="Ingrese Codigo Producto">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Producto</label>
-                                                        <input type="text" name="producto" id="producto" required="" class="form-control" placeholder="Producto">
+                                                        <input type="text" name="producto" id="producto" maxlength="100" required="" class="form-control" placeholder="Producto">
                                                     </div>
                                                 </div>
                                             </div>
@@ -65,7 +65,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label>Descripción</label>
-                                                        <textarea name="descripcion" id="descripcion" required="" rows="3"  class="form-control" placeholder="Descripción del producto"></textarea>
+                                                        <textarea name="descripcion" id="descripcion" maxlength="255" required="" rows="3"  class="form-control" placeholder="Descripción del producto"></textarea>
                                                     </div>
                                                 </div>
                                             </div>

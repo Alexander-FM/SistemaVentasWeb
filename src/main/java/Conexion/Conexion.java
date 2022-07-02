@@ -21,7 +21,7 @@ public class Conexion {
     this.conexion = DriverManager.getConnection(
             "jdbc:sqlserver://localhost;trustServerCertificate=true;"
             + ";databaseName=Sistema;"
-            + "user=sa;password=alumno;");
+            + "user=sa;password=78019778Fm;");
 
     if (wTransaccion == true) {
       this.conexion.setAutoCommit(false);

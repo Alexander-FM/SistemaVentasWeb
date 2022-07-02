@@ -8,7 +8,7 @@
     <head>
         <%@include file="plus/head.jsp" %>
     </head>
-    <body class="hold-transition skin-blue sidebar-mini" style="font-family: Roboto, sans-serif;">
+    <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
             <%@include file="plus/nav.jsp" %>
             <%@include file="plus/aside.jsp" %>
