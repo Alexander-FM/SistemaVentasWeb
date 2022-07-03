@@ -53,7 +53,20 @@ function listarProductos() {
                         + "</tr>";
             }
             tabla.find("tbody").html(tpl);
-            tabla.dataTable();
+            tabla.DataTable({
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ registros por página",
+                    "zeroRecords": "Ups! No se encontro nada",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "No se encontraron registros",
+                    "infoFiltered": "(filtrado de _MAX_ total totales)",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "next": "Anterior",
+                        "previous": "Siguiente"
+                    }
+                }
+            });
         }
     });
 }

@@ -22,6 +22,38 @@
                     </ol>
                 </section>
                 <section class="content">
+                    <!-- Modal para buscar los producto y agregarlos al carrito -->
+                    <div class="modal fade" id="buscarproductos">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content" style="border-radius: 15px">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Buscar Productos</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-responsive" >  
+                                        <table class="table table table-borderless" id="tablaBuscarProductos" data-page-length='04'>
+                                            <thead>
+                                                <tr class="success">                                        
+                                                    <th class="text-center">Producto</th>                                            
+                                                    <th class="text-center">Imagen</th>                                            
+                                                    <th class="text-center">Stock</th>
+                                                    <th class="text-center">Precio</th>
+                                                    <th class="text-center">Marca</th> 
+                                                    <th class="text-center">Accion</th>  
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            </tbody>                             
+                                        </table>
+                                    </div> 
+                                </div>                             
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ./ Modal para buscar los productos y agregarlos al carrito -->
                     <div class="row">
                         <div class="col-lg-8 col-xs-12">
                             <div class="box box-primary">
@@ -72,7 +104,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-xs-12">
-                                            <button style="margin-top: 25px" class="btn btn-primary col-md-12"><i class="fa fa-search"></i> Buscar Producto</button>
+                                            <button style="margin-top: 25px" class="btn btn-primary col-md-12" data-toggle="modal" data-target="#buscarproductos"><i class="fa fa-search"></i> Buscar Producto</button>
                                         </div>
                                     </div>
                                 </div>
@@ -145,17 +177,17 @@
         <script src="../bower_components/jquery/dist/jquery.min.js"></script>
         <!-- Bootstrap 3.3.7 -->
         <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <!-- Select 2 -->
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <!-- Datatables -->
         <script src="../bower_components/datatables/jquery.dataTables.js" type="text/javascript"></script>
         <script src="../bower_components/datatables-bs4/js/dataTables.bootstrap4.js" type="text/javascript"></script>
+        <!-- Select 2 -->
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <!-- SweetAlert -->
         <script src="../plugins/sweetAlert/sweetalert.min.js" type="text/javascript"></script>
         <!-- AdminLTE App -->     
         <script src="../dist/js/adminlte.min.js"></script>
         <!-- Script Productos -->     
-        <script src="../js/scriptVentas.js"></script>
+        <script src="../js/scriptAdministrarVentas.js"></script>
     </body>
 </html>
 <%

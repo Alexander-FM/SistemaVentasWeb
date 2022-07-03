@@ -36,6 +36,12 @@ public class SrvAdministrarVentas extends HttpServlet {
         case "anularVenta":
           this.anularVenta(request, response);
           break;
+        case "listarProductoConStock":
+            this.listarProductoConStock(response);
+            break;
+        case "agregarProductoBoleta":
+            this.agregarProductoBoleta(request, response);
+            break;
       }
     } else {
       request.setAttribute("msje", "No se indicó la operación a realizar");
@@ -167,4 +173,21 @@ public class SrvAdministrarVentas extends HttpServlet {
       this.printMessage("No se obtuvo los parámetros", false, response);
     }
   }
+
+    private void listarProductoConStock(HttpServletResponse response) throws IOException {
+        PrintWriter out = response.getWriter();
+        try {
+            ventaDAO dao = new ventaDAO();
+            List<Producto> pro = dao.listarProductosConStock();
+            Gson gson = new Gson();
+            String json = gson.toJson(pro);
+            out.print(json);
+        } catch (Exception e) {
+            this.printError(e.getMessage(), response);
+        }
+    }
+
+    private void agregarProductoBoleta(HttpServletRequest request, HttpServletResponse response) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
