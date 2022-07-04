@@ -120,7 +120,19 @@
                                                 <th class="text-center">Acciones</th>
                                             </tr>
                                         </thead>
-                                        <tbody>                                            
+                                        <tbody>
+                                            <c:forEach var="det" items="${listaProductosBoleta}" varStatus="iteracion">
+                                                <tr>
+                                                    <td class="text-center">${iteracion.index + 1}</td>
+                                                    <td class="text-center">${det.producto}</td>
+                                                    <td class="text-center">${det.cant}</td>
+                                                    <td class="text-center">${det.precioVenta}</td>
+                                                    <td class="text-center">${det.precioTotal}</td>
+                                                    <td class="text-center">
+                                                        <a href="#" class="btn btn-danger btn-sm"><i> Eliminar</i></a>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
                                         </tbody>
                                     </table>
                                 </div>
@@ -140,19 +152,19 @@
                                     <div class="col-lg-12 col-xs-12">
                                         <div class="form-group">
                                             <label for="subTotal">Sub-Total</label>
-                                            <input type="text" class="form-control" disabled="" id="subTotal" placeholder="S/ 69.32" name="subTotalVenta">
+                                            <input type="text" class="form-control" disabled="" id="subTotal" value="${subTotal}" name="subTotalVenta">
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-xs-12">
                                         <div class="form-group">
                                             <label for="igv">IGV</label>
-                                            <input type="text" class="form-control" disabled="" id="igv" placeholder="18%" name="igv">
+                                            <input type="text" class="form-control" disabled="" id="igv" value="${IGV}" name="igv">
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-xs-12">
                                         <div class="form-group">
                                             <label for="subTotal">Total a Pagar</label>
-                                            <input type="text" class="form-control" disabled="" id="subTotal" placeholder="S/ 69.32" name="subTotalVenta">
+                                            <input type="text" class="form-control" disabled="" id="totalPagar" value="${totalPagar}" name="subTotalVenta">
                                         </div>
                                     </div>
                                 </div>

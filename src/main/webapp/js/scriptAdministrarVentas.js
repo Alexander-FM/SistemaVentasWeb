@@ -103,7 +103,7 @@ function listarProductoConStock() {
                         + "<td>" + data[i].stock + "</td>"
                         + "<td>S/. " + data[i].precioVenta + ".00</td>"
                         + "<td>" + data[i].marca.marca + "</td>"
-                        + "<td><a href=\"../AdministrarVentas?accion=agregarProductoBoleta&cod=" + data[i].codigo + "\" class=\"btn btn-success\"><i class=\"fa fa-plus\"> Agregar</i></a></td>"
+                        + "<td><a href=\"../AdministrarVentas?accion=agregarProductoBoleta&cod=" + data[i].codigo + "\" class=\"btn btn-success\"><i class=\"fa fa-plus\"></i> Agregar</a></td>"
                         + "</tr>";
             }
             tablaBuscarProducto.find("tbody").html(tpl);

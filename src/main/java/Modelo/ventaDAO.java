@@ -132,6 +132,12 @@ public class ventaDAO extends Conexion {
         }
     }
 
+    /**
+     * Este método lista los productos con stock mayores 0.
+     *
+     * @return
+     * @throws Exception
+     */
     public List<Producto> listarProductosConStock() throws Exception {
         List<Producto> productos = null;
         Producto prod;
@@ -164,5 +170,29 @@ public class ventaDAO extends Conexion {
             System.out.println("Error al obtener la lista de productos" + e.getMessage());
         }
         return productos;
+    }
+
+    /**
+     * Este método retorna un producto para añadirlo al carrito.
+     * @param id
+     * @return 
+     */
+    public Producto listarById(int id) {
+        String sql = "SELECT IDPRODUCTO, PRODUCTO, PRECIOVENTA FROM PRODUCTO WHERE IDPRODUCTO=" + id;
+        ResultSet rs = null;
+        Producto p = new Producto();
+        try {
+            this.conectar(false);
+            rs = this.ejecutarOrdenDatos(sql);
+            while (rs.next()) {
+                p.setCodigo(rs.getInt("IDPRODUCTO"));
+                p.setProducto(rs.getString("PRODUCTO"));
+                p.setPrecioVenta(rs.getDouble("PRECIOVENTA"));
+            }
+            this.cerrar(false);
+        } catch (Exception e) {
+            System.out.println("Error al obtener añadir el producto a la boleta de venta" + e.getMessage());
+        }
+        return p;
     }
 }
