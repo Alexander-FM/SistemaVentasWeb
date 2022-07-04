@@ -16,6 +16,13 @@ $(document).ready(function () {
         listarDetalleVenta(idVenta);
         mdlDetalleVenta.modal({backdrop: 'static', keyboard: false});
     });
+    $("tr #cantidad").change(function () {
+        var idp = $(this).parent().find("#idProducto").val();
+        var url = "../AdministrarVentas?accion=actualizarCantidad";
+        var cantidad = $(this).parent().find("#cantidad").val();
+        $("tr #cantidad").load(url, {"arreglo[]": [idp, cantidad]});
+        location.href = "/SistemaVentasWeb/vista/ventas.jsp";
+    });
 });
 
 /**

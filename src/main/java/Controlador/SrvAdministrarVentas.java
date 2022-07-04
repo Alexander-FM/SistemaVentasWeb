@@ -22,8 +22,9 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "SrvAdministrarVentas", urlPatterns = {"/AdministrarVentas"})
 public class SrvAdministrarVentas extends HttpServlet {
-
     DecimalFormat df = new DecimalFormat("#.00");
+    List<ProductoBoleta> listaProductoBoleta = new ArrayList<>();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
@@ -46,6 +47,12 @@ public class SrvAdministrarVentas extends HttpServlet {
                     break;
                 case "agregarProductoBoleta":
                     this.agregarProductoBoleta(request, response);
+                    break;
+                case "eliminarProductoBoleta":
+                    this.eliminarProductoBoleta(request, response);
+                    break;
+                case "actualizarCantidad":
+                    this.actualizarCantidad(request);
                     break;
             }
         } else {
@@ -196,7 +203,6 @@ public class SrvAdministrarVentas extends HttpServlet {
     }
 
     private void agregarProductoBoleta(HttpServletRequest request, HttpServletResponse response) {
-        List<ProductoBoleta> listaProductoBoleta;
         ventaDAO dao;
         int cantidad = 1;
         int pos = 0;
@@ -205,7 +211,6 @@ public class SrvAdministrarVentas extends HttpServlet {
 
         try {
             dao = new ventaDAO();
-            listaProductoBoleta = new ArrayList<>();
             if (listaProductoBoleta.size() > 0) {
                 for (int i = 0; i < listaProductoBoleta.size(); i++) {
                     if (listaProductoBoleta.get(i).getId() == id) {
@@ -224,6 +229,7 @@ public class SrvAdministrarVentas extends HttpServlet {
                     pb.setProducto(p.getProducto());
                     pb.setCant(cantidad);
                     pb.setPrecioVenta(p.getPrecioVenta());
+                    total = cantidad * p.getPrecioVenta();
                     pb.setPrecioTotal(total);
                     listaProductoBoleta.add(pb);
                 }
@@ -234,27 +240,57 @@ public class SrvAdministrarVentas extends HttpServlet {
                 pb.setProducto(p.getProducto());
                 pb.setCant(cantidad);
                 pb.setPrecioVenta(p.getPrecioVenta());
+                total = cantidad * p.getPrecioVenta();
                 pb.setPrecioTotal(total);
                 listaProductoBoleta.add(pb);
             }
-
-            HttpSession session = request.getSession();
-            double subTotal = 0.0;
-            double igv = 0.18;
-            double totalPagar;
-            for (int i = 0; i < listaProductoBoleta.size(); i++) {
-                subTotal += listaProductoBoleta.get(i).getPrecioTotal();
-            }
-            subTotal+= - igv;
-            totalPagar = subTotal;
-            session.setAttribute("subTotal", df.format(subTotal));
-            session.setAttribute("IGV", df.format(igv));
-            session.setAttribute("totalPagar", df.format(totalPagar));
-            session.setAttribute("listaProductosBoleta", listaProductoBoleta);
+            listarBoleta(request);
             response.sendRedirect("/SistemaVentasWeb/vista/ventas.jsp");
         } catch (Exception e) {
             System.out.println("No se pudo agregar el producto al carrito: " + e.getLocalizedMessage());
         }
 
+    }
+
+    private void listarBoleta(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        double subTotal = 0.0;
+        double igv = 0.0;
+        double totalPagar;
+        for (int i = 0; i < listaProductoBoleta.size(); i++) {
+            subTotal = subTotal + listaProductoBoleta.get(i).getPrecioTotal();
+        }
+        //igv = subTotal * 0.18;
+        subTotal = subTotal - igv;
+        totalPagar = subTotal;
+        session.setAttribute("subTotal", df.format(subTotal));
+        session.setAttribute("IGV", df.format(igv));
+        session.setAttribute("totalPagar", df.format(totalPagar));
+        session.setAttribute("listaProductosBoleta", listaProductoBoleta);
+    }
+
+    private void eliminarProductoBoleta(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        for (int i = 0; i < listaProductoBoleta.size(); i++) {
+            if (listaProductoBoleta.get(i).getId() == id) {
+                listaProductoBoleta.remove(i);
+            }
+        }
+        listarBoleta(request);
+        response.sendRedirect("/SistemaVentasWeb/vista/ventas.jsp");
+    }
+
+    private void actualizarCantidad(HttpServletRequest request) {
+        String[] arreglo;
+        arreglo = request.getParameterValues("arreglo[]");
+        int id = Integer.parseInt(arreglo[0]);
+        int cant = Integer.parseInt(arreglo[1]);
+        for (int i = 0; i < listaProductoBoleta.size(); i++) {
+            if (listaProductoBoleta.get(i).getId() == id) {
+                listaProductoBoleta.get(i).setCant(cant);
+                double subTotal = listaProductoBoleta.get(i).getPrecioVenta() * cant;
+                listaProductoBoleta.get(i).setPrecioTotal(subTotal);
+            }
+        }
     }
 }

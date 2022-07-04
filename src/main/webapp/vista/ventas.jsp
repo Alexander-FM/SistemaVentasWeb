@@ -125,11 +125,14 @@
                                                 <tr>
                                                     <td class="text-center">${iteracion.index + 1}</td>
                                                     <td class="text-center">${det.producto}</td>
-                                                    <td class="text-center">${det.cant}</td>
+                                                    <td class="text-center" style="width: 5px">
+                                                        <input type="hidden" id="idProducto" value="${det.id}">
+                                                        <input type="number" class="form-control text-center" id="cantidad" value="${det.cant}">
+                                                    </td>
                                                     <td class="text-center">${det.precioVenta}</td>
                                                     <td class="text-center">${det.precioTotal}</td>
                                                     <td class="text-center">
-                                                        <a href="#" class="btn btn-danger btn-sm"><i> Eliminar</i></a>
+                                                        <a href="../AdministrarVentas?accion=eliminarProductoBoleta&id=${det.id}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Eliminar</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
